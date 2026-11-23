@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="零九顧問 AI 導入輔導一頁摘要：方案價格、付款節點、驗收標準、範圍、資料安全與停損，給老闆或財務簽呈使用。">
+<title>零九顧問｜一頁摘要</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#f4f6f6; --alt:#e7edee; --paper:#ffffff; --ink:#14232c; --muted:#56656e; --line:#d2dbdf;
+  --accent:#1b6782; --accent-ink:#ffffff; --accent-soft:#dcebf1;
+  --signal:#f0a419; --signal-ink:#2b1d00; --signal-soft:#fdf1d8;
+  --sans:"Noto Sans TC",system-ui,-apple-system,"PingFang TC",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",monospace;
+}
+@media screen and (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f181d; --alt:#142128; --paper:#18262e; --ink:#e3ebef; --muted:#9db0ba; --line:#2a3a43;
+  --accent:#62b6d4; --accent-ink:#06141a; --accent-soft:#1b3442;
+  --signal:#f5b53c; --signal-ink:#231700; --signal-soft:#3a2d12; color-scheme:dark}}
+@media screen{:root[data-theme="dark"]{
+  --bg:#0f181d; --alt:#142128; --paper:#18262e; --ink:#e3ebef; --muted:#9db0ba; --line:#2a3a43;
+  --accent:#62b6d4; --accent-ink:#06141a; --accent-soft:#1b3442;
+  --signal:#f5b53c; --signal-ink:#231700; --signal-soft:#3a2d12; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;max-width:900px;margin:0 auto;padding:20px 16px 0}
+.bar .brand{font-weight:900;font-size:18px;color:var(--ink);text-decoration:none;margin-right:auto}
+.btn{display:inline-flex;align-items:center;font:inherit;font-weight:700;font-size:15px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:9px 18px;border-radius:8px;cursor:pointer;text-decoration:none;line-height:1.3}
+.btn.ghost{background:transparent;color:var(--accent)}
+.sheet{max-width:900px;margin:16px auto 48px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:36px 40px}
+@media (max-width:640px){.sheet{margin:12px 16px 32px;padding:22px 18px}}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 16px;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:16px}
+h1{font-size:24px;line-height:1.3;margin:0;font-weight:900}
+.head p{margin:0;color:var(--muted);font-size:13px}
+h2{font-size:15px;margin:0 0 6px;color:var(--accent);font-weight:900}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 32px}
+@media (max-width:700px){.grid{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+@media (max-width:480px){tbody th{white-space:normal}th,td{padding:5px 6px}}
+section p{margin:0 0 4px}
+ul{margin:0;padding-left:1.2em}
+li{margin:0 0 2px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-weight:900;border-bottom:2px solid var(--ink)}
+tbody th{font-weight:500;color:var(--muted);white-space:nowrap}
+.hl{background:var(--signal-soft)}
+.price{font-weight:900;font-size:16px}
+.note{font-size:13px;color:var(--muted)}
+.demo{display:inline-block;font-size:12px;font-weight:700;background:var(--signal-soft);color:var(--ink);border:1px dashed var(--signal);border-radius:5px;padding:0 7px;margin-left:6px;vertical-align:2px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+@media (max-width:480px){.cols2{grid-template-columns:1fr}}
+.foot{margin-top:16px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 16px}
+
+@page{size:A4;margin:12mm 13mm}
+@media print{
+  :root{--bg:#fff;--paper:#fff;--ink:#14232c;--muted:#4c5b64;--line:#cfd8dc;--accent:#1b6782;--signal:#f0a419;--signal-soft:#fdf1d8;color-scheme:light}
+  html,body{background:#fff!important;color:#14232c}
+  .bar,.no-print{display:none!important}
+  body{font-size:10.5pt;line-height:1.5}
+  .sheet{max-width:none;margin:0;border:0;border-radius:0;padding:0}
+  h1{font-size:17pt}
+  h2{font-size:11pt;margin-bottom:3px}
+  .grid{grid-template-columns:1fr 1fr;gap:9px 22px}
+  table{font-size:9.5pt}
+  th,td{padding:3px 6px}
+  .price{font-size:11pt}
+  .note,.head p,.foot{font-size:9pt}
+  .cols2{grid-template-columns:1fr 1fr}
+  section{break-inside:avoid}
+  a{color:inherit;text-decoration:none}
+}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<nav class="bar" aria-label="頁面操作">
+  <a class="brand" href="/">零九顧問</a>
+  <a class="btn ghost" href="/#pricing">回到方案與價格</a>
+  <button class="btn" type="button" onclick="window.print()">列印／存成 PDF</button>
+</nav>
+
+<main class="sheet">
+  <div class="head">
+    <h1>零九顧問　AI 導入輔導・一頁摘要</h1>
+    <p>給老闆或財務簽呈使用・價格皆為未稅</p>
+  </div>
+
+  <div class="grid">
+    <section class="full">
+      <h2>方案與價格（未稅）</h2>
+      <table>
+        <thead><tr><th scope="col">項目</th><th scope="col" class="hl">首批示範企業（限 3 家）</th><th scope="col">標準方案</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">價格</th><td class="hl price">12 萬（第 4 家起 18 萬）</td><td class="price">30 萬</td></tr>
+          <tr><th scope="row">適合</th><td class="hl">約 20–60 人</td><td>約 61–150 人</td></tr>
+          <tr><th scope="row">打好主幹</th><td class="hl">1–2 週，現場 3 天，第 4–6 週回訪 1 天</td><td>2–3 週，現場 4 天加回訪 1 天</td></tr>
+          <tr><th scope="row">上線流程／種子人員</th><td class="hl">2 個／1–2 人</td><td>3 個／2–3 人</td></tr>
+          <tr><th scope="row">全員工作坊／遠端陪跑</th><td class="hl">1 場／10 週，從流程上線日起算</td><td>2 場／12 週</td></tr>
+          <tr><th scope="row">成效報告</th><td class="hl">基準線加結案報告</td><td>基準線、月報加結案報告</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:4px">營業稅 5% 另計，依付款節點開立發票。診斷免費。</p>
+    </section>
+
+    <section>
+      <h2>付款節點（三期）</h2>
+      <table>
+        <tbody>
+          <tr><th scope="row">第 1 期</th><td>簽約</td><td>40%</td></tr>
+          <tr><th scope="row">第 2 期</th><td>主幹完成</td><td>40%</td></tr>
+          <tr><th scope="row">第 3 期</th><td>驗收</td><td>20%</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:4px">每一期對應一個完成節點，沒到節點就不收下一期。</p>
+    </section>
+
+    <section>
+      <h2>驗收標準</h2>
+      <ul>
+        <li>約定的流程上線後，連續 2 週有人在用。</li>
+        <li>與導入前基準線的工時比較，列在結案報告。</li>
+        <li>基準線在導入前由雙方共同量測並簽認。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>範圍</h2>
+      <ul>
+        <li>2 個（示範企業）或 3 個（標準方案）流程上線，例如報價草稿、出貨文件</li>
+        <li>帳號、權限與 AI 工具設定</li>
+        <li>種子人員學會自己改</li>
+        <li>遠端陪跑與結案報告</li>
+        <li>範圍外的需求先書面報價，同意才開工</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>不包含</h2>
+      <ul>
+        <li>換掉或改寫 ERP、進銷存</li>
+        <li>打卡、薪資、派工這類需要寫程式的系統</li>
+        <li>硬體（由在地系統商另外報價）</li>
+        <li>AI 帳號月費</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>公司要配合的事</h2>
+      <ul>
+        <li>一位有決策權的窗口</li>
+        <li>種子人員每週至少 4 小時</li>
+        <li>資料與帳號在 5 個工作天內備齊</li>
+        <li>老闆出席開場與回顧</li>
+        <li>老闆在第 1 天向全員承諾：不會因為導入 AI 而裁員。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>資料安全</h2>
+      <ul>
+        <li>資料放在公司自己的帳號，管理員權限在公司手上</li>
+        <li>使用企業版或商務版 AI 方案（以各平台當時的條款為準）</li>
+        <li>第 1 天就把資料分級，訂好哪些能用 AI</li>
+        <li>雙方簽保密協議，結案或解約即移除顧問端權限</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>預期效益</h2>
+      <ul>
+        <li>投入 12 萬，前 2 個流程約半年回本：一年約省回 21–23 萬（以 50 人公司示範試算）</li>
+        <li>全面導入後，目標一年釋放 100 萬以上的人力價值：員工自己長出更多工具、加上後續擴充後才達得到；約等於 2 位全職行政一年的時間</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>風險與停損</h2>
+      <ul>
+        <li>每個付款節點都可以決定不繼續，停了就不再收後面的款項。</li>
+        <li>做出來的工具、範本、資料都歸公司。</li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="foot">
+    <span>正式合約與報價單於診斷後提供。</span>
+    <span>聯絡窗口：黃泰翔<span class="contact-tel" hidden>電話：</span><span class="contact-line" hidden>LINE：</span></span>
+    <span>零九顧問・aireadiness-tw.github.io</span>
+  </div>
+</main>
+</body>
+</html>

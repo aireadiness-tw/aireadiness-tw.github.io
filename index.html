@@ -1,0 +1,1518 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="零九顧問：中小企業 AI 導入輔導，免費 AI 準備度自評與 30 分鐘遠端診斷，服務全台。">
+<title>零九顧問｜中小企業 AI 導入輔導</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* 視覺主軸：十格面板。九格是 AI 自動化（鋼藍），一格亮起來的是「你的人」（訊號黃）。
+   訊號黃只用在「人」的位置與試算結果，其他地方保持安靜。 */
+:root{
+  --bg:#f4f6f6; --alt:#e7edee; --paper:#ffffff; --ink:#14232c; --muted:#56656e; --line:#d2dbdf;
+  --accent:#1b6782; --accent-ink:#ffffff; --accent-soft:#dcebf1; --cell:#e3eef2;
+  --signal:#f0a419; --signal-ink:#2b1d00; --signal-soft:#fdf1d8;
+  --deep:#13303d; --deep-ink:#e9f1f4; --deep-muted:#a9bfc8;
+  --field:#ffffff;
+  --sans:"Noto Sans TC",system-ui,-apple-system,"PingFang TC",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",monospace;
+  --nav:68px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f181d; --alt:#142128; --paper:#18262e; --ink:#e3ebef; --muted:#9db0ba; --line:#2a3a43;
+  --accent:#62b6d4; --accent-ink:#06141a; --accent-soft:#1b3442; --cell:#1a2f3a;
+  --signal:#f5b53c; --signal-ink:#231700; --signal-soft:#3a2d12;
+  --deep:#0b2430; --deep-ink:#e3ebef; --deep-muted:#9db6c1;
+  --field:#0f1a20; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f181d; --alt:#142128; --paper:#18262e; --ink:#e3ebef; --muted:#9db0ba; --line:#2a3a43;
+  --accent:#62b6d4; --accent-ink:#06141a; --accent-soft:#1b3442; --cell:#1a2f3a;
+  --signal:#f5b53c; --signal-ink:#231700; --signal-soft:#3a2d12;
+  --deep:#0b2430; --deep-ink:#e3ebef; --deep-muted:#9db6c1;
+  --field:#0f1a20; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(var(--nav) + 12px)}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;margin:0;overflow-x:hidden}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}
+@media (max-width:640px){.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}body{font-size:16px}}
+
+/* 導覽列 */
+.topbar{position:fixed;inset:0 0 auto;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.topbar .wrap{height:var(--nav);display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px;color:var(--ink);text-decoration:none;letter-spacing:.02em;white-space:nowrap}
+.brand svg{flex:none}
+.links{display:flex;gap:22px;margin-left:auto;font-size:15px}
+.links a{color:var(--muted);text-decoration:none}
+.links a:hover{color:var(--ink)}
+.topbar .btn{margin-left:4px;padding:9px 18px;font-size:15px;white-space:nowrap}
+@media (max-width:900px){.links{display:none}.topbar .btn{margin-left:auto}}
+@media (max-width:380px){.brand span{font-size:17px}.topbar .btn{padding:8px 12px}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;text-decoration:none;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:13px 24px;border-radius:8px;cursor:pointer;line-height:1.3}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent)}
+
+/* 段落色帶 */
+.band{padding-block:96px}
+.band.alt{background:var(--alt)}
+.band.deep{background:var(--deep);color:var(--deep-ink)}
+@media (max-width:640px){.band{padding-block:64px}}
+.kicker{font-size:15px;font-weight:700;color:var(--accent);margin:0 0 6px}
+.deep .kicker{color:var(--signal)}
+h1,h2,h3{text-wrap:balance}
+h2{font-size:clamp(26px,3.4vw,40px);line-height:1.3;font-weight:900;margin:0 0 20px;max-width:24em}
+h3{font-size:19px;line-height:1.45;margin:0 0 8px}
+p{max-width:42em;margin:0 0 14px}
+.muted{color:var(--muted)}
+.small{font-size:14px;color:var(--muted)}
+.sec-head{margin-bottom:40px}
+.sec-head p{color:var(--muted)}
+.deep .sec-head p,.deep .muted{color:var(--deep-muted)}
+
+/* 首屏 */
+.hero{padding-top:calc(var(--nav) + env(safe-area-inset-top,0px) + 64px);padding-bottom:96px;background:
+  linear-gradient(var(--bg),var(--bg)) padding-box}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:center}
+.ln{display:inline-block}
+.hero h1{font-size:clamp(32px,3.7vw,52px);line-height:1.18;font-weight:900;margin:8px 0 24px;letter-spacing:-.01em}
+.hero .lead{font-size:18px;color:var(--muted);max-width:36em;margin:0 0 32px}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px}
+.textlink{font-weight:500}
+@media (max-width:980px){.hero .wrap{grid-template-columns:1fr;gap:44px}.hero{padding-top:calc(var(--nav) + env(safe-area-inset-top,0px) + 40px);padding-bottom:64px}}
+
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:0 30px 60px -36px rgba(20,35,44,.35)}
+.panel-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:18px}
+.panel-top b{font-size:16px}
+.panel-top span{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.cells{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.cell{aspect-ratio:4/5;border-radius:10px;background:var(--cell);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);display:flex;flex-direction:column;justify-content:space-between;padding:10px;color:var(--accent);min-width:0}
+.cell .n{font-family:var(--mono);font-size:13px;font-weight:600}
+.cell svg{width:26px;height:26px}
+.cell .t{font-size:12px;font-weight:700;line-height:1.3;color:var(--ink);white-space:nowrap}
+.cell.you{background:var(--signal);border-color:var(--signal);color:var(--signal-ink);box-shadow:0 0 0 6px color-mix(in srgb,var(--signal) 28%,transparent);animation:glow 1.2s .5s both}
+.cell.you .t{color:var(--signal-ink)}
+@keyframes glow{from{box-shadow:0 0 0 0 color-mix(in srgb,var(--signal) 0%,transparent);filter:saturate(.2) brightness(.9)}to{box-shadow:0 0 0 6px color-mix(in srgb,var(--signal) 28%,transparent)}}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:20px;font-size:14px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:8px;vertical-align:-1px}
+@media (max-width:480px){.panel{padding:18px}.cells{gap:6px}.cell{padding:6px;border-radius:8px}.cell .t{font-size:10.5px}.cell svg{width:20px;height:20px}.cell .n{font-size:11px}}
+
+/* 零九 */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center}
+@media (max-width:900px){.split{grid-template-columns:1fr;gap:36px}}
+.ratio{background:var(--paper);border-radius:16px;padding:28px}
+.ratio .meter{display:flex;gap:6px;height:56px}
+.ratio .meter span{border-radius:10px;display:flex;align-items:center;padding:0 16px;font-weight:700;font-size:17px}
+.ratio .meter .ai{flex:9;background:var(--accent-soft);color:var(--accent)}
+.ratio .meter .human{flex:1.3;background:var(--signal);color:var(--signal-ink);justify-content:center;padding:0;font-size:18px}
+.ratio .lists{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:22px}
+.ratio h3{font-size:15px;margin:0 0 10px;color:var(--muted)}
+.ratio ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.ratio li{border-radius:6px;padding:4px 12px;font-size:15px;font-weight:500}
+.ratio .l-ai li{background:var(--accent-soft)}
+.ratio .l-human li{background:var(--signal-soft);border:1px solid var(--signal)}
+@media (max-width:480px){.ratio{padding:18px}.ratio .lists{grid-template-columns:1fr}.ratio .meter .human{flex:2}}
+
+/* 卡片 */
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+@media (max-width:1000px){.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:680px){.grid3,.grid2{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px;min-width:0}
+.alt .card{border-color:transparent}
+.card p:last-child{margin-bottom:0}
+ul.clean{margin:0;padding-left:1.2em;display:grid;gap:8px}
+
+/* 以前／現在 */
+.dept-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.icon{flex:none;width:44px;height:44px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.icon svg{width:24px;height:24px}
+.dept-head h3{margin:0}
+.bf{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.bf li{display:grid;grid-template-columns:1fr;gap:6px;padding-top:16px;border-top:1px dashed var(--line)}
+.bf li:first-child{border-top:0;padding-top:0}
+.bf .was,.bf .now{display:grid;grid-template-columns:42px 1fr;gap:8px;align-items:start;font-size:15px;line-height:1.6}
+.bf .tag{font-size:12px;font-weight:700;border-radius:5px;padding:1px 0;text-align:center;margin-top:2px}
+.bf .was{color:var(--muted)}
+.bf .was .tag{background:var(--alt);color:var(--muted);border:1px solid var(--line)}
+.bf .now .tag{background:var(--accent);color:var(--accent-ink)}
+.bf .now b{font-weight:500}
+
+.note-card{background:var(--signal-soft);border:1px dashed var(--signal);display:flex;align-items:center;font-size:15px}
+
+/* 試算 */
+.roi{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:32px;align-items:start}
+@media (max-width:1000px){.roi{grid-template-columns:1fr}}
+.metrics{width:100%;border-collapse:collapse;font-size:15px}
+.metrics th,.metrics td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.metrics th{font-weight:500;color:var(--muted);font-size:13px;line-height:1.4}
+.roi input[type=number]{font:inherit;font-variant-numeric:tabular-nums;width:5.5em;padding:7px 8px;border:1px solid var(--line);border-radius:7px;background:var(--field);color:var(--ink)}
+.roi input[type=number]:hover{border-color:var(--accent)}
+.pctcell{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.roi-inputs .fields{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.roi-inputs label{display:grid;gap:6px;font-size:15px}
+.roi-inputs .fields input{width:100%}
+.roi-out{position:sticky;top:calc(var(--nav) + env(safe-area-inset-top,0px) + 24px);background:var(--deep);color:var(--deep-ink);border-radius:16px;padding:32px;display:grid;gap:26px}
+.roi-out .k{font-size:15px;color:var(--deep-muted);margin-bottom:4px}
+.roi-out .v{font-family:var(--mono);font-weight:600;font-size:clamp(30px,3.2vw,42px);line-height:1.15;font-variant-numeric:tabular-nums;color:#fff}
+.roi-out .s{font-size:14px;color:var(--deep-muted)}
+.roi-out > div + div{border-top:1px solid rgba(255,255,255,.14);padding-top:22px}
+.roi-out > div:last-child .v{color:var(--signal)}
+@media (max-width:700px){
+  .metrics thead{display:none}
+  .metrics,.metrics tbody{display:block}
+  .metrics tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 10px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .metrics td{display:grid;gap:4px;align-content:space-between;border:0;padding:0;font-size:12.5px;line-height:1.4;color:var(--muted)}
+  .metrics td::before{content:attr(data-label)}
+  .metrics td:first-child{grid-column:1/-1;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px}
+  .metrics td:first-child::before{content:none}
+  .roi input[type=number]{width:100%;font-size:16px}
+  .pctcell input{min-width:0}
+  .roi-inputs .fields{grid-template-columns:1fr}
+  .roi-out{position:static;padding:24px}
+}
+
+.commit{margin-top:32px;border:2px dashed var(--line);border-radius:14px;padding:24px 28px}
+.commit h3{margin:0 0 14px}
+.commit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.commit-grid div{display:grid;gap:2px}
+.commit .who{font-size:13px;font-weight:700;color:var(--accent)}
+.commit b{font-size:20px}
+.commit .muted{font-size:14px}
+@media (max-width:680px){.commit-grid{grid-template-columns:1fr}.commit{padding:20px}}
+
+/* 六步驟流程 */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;position:relative}
+.flow::before{content:"";position:absolute;left:24px;right:24px;top:23px;height:2px;background:repeating-linear-gradient(90deg,var(--accent) 0 8px,transparent 8px 14px)}
+.flow li{position:relative;min-width:0}
+.node{width:48px;height:48px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:16px;position:relative;box-shadow:0 0 0 6px var(--bg)}
+.flow li:last-child .node{background:var(--signal);color:var(--signal-ink)}
+.flow details{margin-top:18px}
+.flow summary{list-style:none;cursor:pointer}
+.flow summary::-webkit-details-marker{display:none}
+.flow .when{font-size:13px;font-weight:700;color:var(--accent)}
+.flow summary h3{font-size:17px;margin:4px 0 0}
+.flow summary h3::after{content:"＋";font-weight:400;color:var(--muted);margin-left:6px;font-size:14px}
+.flow details[open] summary h3::after{content:"－"}
+.flow details p{font-size:15px;color:var(--muted);margin:10px 0 0}
+@media (max-width:1000px){
+  .flow{grid-template-columns:1fr;gap:0}
+  .flow::before{left:23px;right:auto;top:24px;bottom:24px;width:2px;height:auto;background:repeating-linear-gradient(180deg,var(--accent) 0 8px,transparent 8px 14px)}
+  .flow li{display:grid;grid-template-columns:48px 1fr;gap:18px;padding-bottom:22px}
+  .flow details{margin-top:2px}
+}
+.principle{margin-top:48px;background:var(--paper);border-left:6px solid var(--signal);border-radius:10px;padding:22px 26px;font-size:18px;font-weight:500;max-width:none}
+
+/* 交付 */
+.day .tag{display:inline-block;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 10px;margin-bottom:12px}
+
+.band.slim{padding-block:64px}
+.more{margin-top:20px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.more summary{cursor:pointer;padding:18px 22px;font-weight:700;list-style:none;position:relative;padding-right:56px}
+.more summary::-webkit-details-marker{display:none}
+.more summary::after{content:"";position:absolute;right:22px;top:50%;width:10px;height:10px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:translateY(-70%) rotate(45deg)}
+.more[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.more-body{padding:0 22px 22px}
+.more .card{border:1px solid var(--line)}
+.server-art{max-width:420px!important}
+.tree{display:block;width:100%;height:auto;max-width:560px;margin-inline:auto}
+.phases{list-style:none;padding:0;margin:48px 0 0;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:24px;counter-reset:none}
+@media (max-width:1000px){.phases{grid-template-columns:1fr}}
+.phases li{position:relative}
+.pno{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-weight:600;margin-bottom:12px}
+.phases li:nth-child(2) .pno{background:var(--signal);color:var(--signal-ink)}
+.phases p{margin:0;color:var(--muted);font-size:15.5px}
+.phase-note{margin:0 0 12px!important;font-size:14px!important}
+.days-mini{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px;color:var(--muted)}
+.days-mini .tag{display:block;font-size:13px;font-weight:700;color:var(--accent)}
+/* 伺服器插圖 */
+.server-art{display:block;width:100%;height:auto;max-width:520px;margin-inline:auto}
+
+/* 成效 */
+.perf{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:start}
+@media (max-width:1000px){.perf{grid-template-columns:1fr}}
+.tbl{overflow-x:auto}
+.ptable{width:100%;border-collapse:collapse;font-size:15px;background:var(--paper);border-radius:14px;overflow:hidden}
+.ptable th,.ptable td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+.ptable th{font-weight:500;color:var(--muted);font-size:13px;background:var(--alt)}
+.ptable td:first-child{font-weight:700;white-space:nowrap}
+.ptable tr:last-child td{border-bottom:0}
+@media (max-width:640px){
+  .ptable thead{display:none}
+  .ptable,.ptable tbody,.ptable tr,.ptable td{display:block}
+  .ptable tr{padding:14px 16px;border-bottom:1px solid var(--line)}
+  .ptable td{border:0;padding:2px 0}
+  .ptable td:nth-child(3){color:var(--muted);font-size:14px}
+}
+
+/* 示意畫面 */
+.mock{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 24px 50px -34px rgba(20,35,44,.4)}
+.mock-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--alt);border-bottom:1px solid var(--line);font-size:13px}
+.mock-bar .dots{display:flex;gap:5px}
+.mock-bar .dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.mock-bar .ttl{font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.demo-tag{flex:none;font-size:12px;font-weight:700;background:var(--signal-soft);color:var(--ink);border:1px dashed var(--signal);border-radius:5px;padding:1px 8px}
+.mock-body{padding:20px}
+.mock-meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;color:var(--muted);margin-bottom:14px}
+.mock table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.mock th,.mock td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
+.mock th{font-size:12px;color:var(--muted);font-weight:500}
+.mock td.r,.mock th.r{text-align:right}
+.mock tfoot td{font-weight:700;border-bottom:0}
+.ai-note{margin-top:14px;font-size:13px;background:var(--accent-soft);border-radius:8px;padding:10px 12px;display:flex;gap:8px}
+.ai-note svg{flex:none;width:18px;height:18px;color:var(--accent);margin-top:2px}
+.mock-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.mock-actions span{font-size:13px;font-weight:700;border-radius:6px;padding:6px 12px;border:1px solid var(--accent);color:var(--accent)}
+.mock-actions span:first-child{background:var(--accent);color:var(--accent-ink)}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--alt);border-radius:10px;padding:12px 14px;min-width:0}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-family:var(--mono);font-weight:600;font-size:24px;line-height:1.2}
+.kpi .d{font-size:12px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block}
+.chart .bar{fill:var(--accent)}
+.chart .bar.base{fill:var(--line)}
+.chart .lbl{fill:var(--muted);font-size:12px;font-family:var(--sans)}
+.chart .val{fill:var(--ink);font-size:12px;font-family:var(--mono);font-weight:600}
+.caption{font-size:14px;color:var(--muted);margin-top:12px}
+.demo-wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:center;margin-top:56px}
+@media (max-width:1000px){.demo-wrap{grid-template-columns:1fr;gap:24px}}
+
+/* 案例、示範 */
+.case-tag{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px}
+.demo .case-tag{display:inline-block;background:var(--signal-soft);color:var(--ink);border:1px dashed var(--signal);border-radius:5px;padding:1px 8px}
+.case p b{color:var(--ink)}
+.case-ext{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);color:var(--muted)}
+.case-ext .case-ext-h{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 6px}
+.case-ext p{margin:8px 0 0}
+
+/* 原則：員工加值 */
+.pledge .quote{margin:8px 0 22px}
+.pledge .sec-head .kicker{color:var(--signal)}
+.pledge-lead{color:var(--deep-muted);max-width:46em}
+.pledge .grid3{margin-top:28px}
+.pledge .card{background:color-mix(in srgb,var(--deep-ink) 7%,transparent);border:1px solid color-mix(in srgb,var(--deep-ink) 18%,transparent);color:var(--deep-ink)}
+.pledge .card h3{color:var(--deep-ink)}
+.pledge .card p{color:var(--deep-muted);margin:0}
+.pledge .pno{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--signal);color:var(--signal-ink);font-weight:900;margin-bottom:12px}
+@media (max-width:1000px){.pledge .grid3{grid-template-columns:1fr}}
+
+/* 數據色帶與痛點清單 */
+.stats{background:var(--deep);color:var(--deep-ink);padding-block:44px 28px}
+.stats ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 36px}
+.stats li{text-wrap:balance;font-size:clamp(22px,2.1vw,30px);font-weight:900;line-height:1.35;border-left:5px solid var(--signal);padding-left:16px}
+.stats .src{margin:22px 0 0;font-size:13px;color:var(--deep-muted);max-width:none}
+.stats .src a{color:var(--deep-ink)}
+@media (max-width:860px){.stats ul{grid-template-columns:1fr}}
+.pain-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 20px;max-width:1100px}
+@media (max-width:760px){.pain-list{grid-template-columns:1fr}}
+.pain-list label{display:flex;gap:12px;align-items:flex-start;min-height:48px;padding:12px 16px;background:var(--paper);border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:17px;line-height:1.5;color:var(--ink)}
+.pain-list input{flex:none;width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent);cursor:pointer}
+.pain-list label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.pain-list label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.pain-msg{margin:22px 0 18px;font-size:18px;font-weight:700;min-height:1.6em}
+
+/* 重點版／詳細版切換 */
+.mode{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--paper);flex:none}
+.mode button{font:inherit;font-size:14px;font-weight:700;line-height:1.2;border:0;background:transparent;color:var(--muted);padding:7px 12px;border-radius:999px;cursor:pointer;min-height:36px;white-space:nowrap}
+.mode button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.mode button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn .short{display:none}
+@media (max-width:900px){.mode{margin-left:auto}.topbar .btn{margin-left:0}.topbar .wrap{gap:12px}}
+@media (max-width:560px){.mode .long,.topbar .btn .long{display:none}.topbar .btn .short{display:inline}.mode button{padding:7px 10px}.topbar .wrap{gap:8px}.topbar .btn{padding:8px 12px}}
+@media (max-width:360px){.brand span{display:none}}
+
+/* 實際成果色帶 */
+.wins{background:var(--accent);color:var(--accent-ink);padding-block:40px 26px}
+.wins ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 36px}
+.wins li{text-wrap:balance;font-size:clamp(20px,1.9vw,28px);font-weight:900;line-height:1.4;border-left:5px solid currentColor;padding-left:16px}
+.wins .src{margin:20px 0 0;font-size:13px;opacity:.88;max-width:none}
+@media (max-width:860px){.wins ul{grid-template-columns:1fr}.wins{padding-block:32px 22px}}
+@media (max-width:640px){.hero .panel{display:none}.hero{padding-bottom:48px}}
+
+/* 痛點對策與結果卡 */
+.pain-list li{min-width:0}
+.fix{margin:6px 0 0;background:var(--alt);border-radius:8px;padding:8px 12px 8px 14px;font-size:15px;line-height:1.55;color:var(--ink)}
+.fix b{color:var(--accent)}
+.claim{margin:24px 0 0;max-width:48em}
+.claim p{margin:0}
+.claim .c1{font-size:clamp(19px,2vw,24px);font-weight:900;line-height:1.4}
+.claim .c2{font-size:clamp(16px,1.6vw,19px);font-weight:900;line-height:1.45;margin-top:10px}
+.claim .c-sub{font-size:14px;line-height:1.5;color:var(--muted)}
+.premise{margin:18px 0 0;max-width:48em;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:12px 16px;background:var(--alt)}
+.premise .p-h{margin:0 0 4px;font-weight:900;font-size:16px}
+.premise ol{margin:0;padding-left:1.4em;font-size:15px;line-height:1.55}
+.premise li+li{margin-top:2px}
+.wins .wins-k{margin:0 0 14px;font-size:14px;font-weight:700;opacity:.9;max-width:none}
+.roi-scope{margin:0 0 14px;font-weight:700;color:var(--accent)}
+.result{margin-top:18px;background:var(--paper);border:2px solid var(--accent);border-radius:14px;padding:22px 24px;max-width:48em}
+.result .r-hint{margin:0;font-weight:700;color:var(--muted)}
+.result .r-main{margin:0 0 14px;font-size:clamp(18px,1.8vw,22px);font-weight:900;line-height:1.5}
+.result .r-cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.result .r-cta .btn{font-size:18px;padding:14px 26px}
+.result .r-note{font-size:14px;color:var(--muted)}
+.result .r-roi{display:inline-block;margin-top:12px}
+.flow-contact{margin:14px 0 0;font-size:15px}
+
+/* 例外管理與經營數位化 */
+.rules .grid2{margin-top:4px}
+.datafy .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:20px}
+@media (max-width:1100px){.datafy .grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.datafy .grid4{grid-template-columns:1fr;gap:12px}}
+.datafy-q{margin:8px 0 0}
+.rules .card h3{font-size:19px;margin:0 0 10px}
+.rules dl{margin:0;display:grid;gap:10px}
+.rules dt{font-size:13px;font-weight:900;color:var(--muted)}
+.rules dt.after{color:var(--accent)}
+.rules dd{margin:2px 0 0;font-size:15.5px;line-height:1.6}
+.rules dd ul{margin:2px 0 0;padding-left:1.2em}
+.rules dd li{margin:0 0 2px}
+.rules-big{margin:26px 0 6px;font-size:clamp(20px,2.4vw,28px);font-weight:900;line-height:1.5;max-width:none}
+.datafy .card h3{display:flex;align-items:center;gap:10px;font-size:19px;margin:0 0 6px}
+.datafy .card h3 svg{flex:none;width:34px;height:34px;padding:6px;border-radius:9px;background:var(--accent-soft);color:var(--accent)}
+.datafy .card p{margin:0;font-size:15.5px}
+.datafy .small{margin-top:18px}
+@media (max-width:640px){.rules.band,.datafy.band{padding-block:44px}.rules .card,.datafy .card{padding:18px}.rules .grid2{gap:12px}}
+
+/* 想看細節（收合區塊） */
+.folds-band{padding-block:64px}
+.folds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;grid-auto-flow:dense}
+@media (max-width:820px){.folds{grid-template-columns:1fr}}
+.fold{background:var(--paper);border:1px solid var(--line);border-radius:12px;min-width:0;overflow:hidden}
+.fold[open]{grid-column:1/-1}
+.fold>summary{list-style:none;cursor:pointer;padding:16px 54px 16px 20px;position:relative;display:grid;gap:2px}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::after{content:"";position:absolute;right:22px;top:26px;width:10px;height:10px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(45deg);transition:transform .2s}
+.fold[open]>summary::after{transform:translateY(4px) rotate(-135deg)}
+.fold>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:12px}
+.fold-k{font-size:13px;font-weight:700;color:var(--accent)}
+.fold-t{font-size:17px;font-weight:700;line-height:1.45;color:var(--ink)}
+.fold-x{font-size:15px;color:var(--muted);line-height:1.6}
+.fold-x.q{font-weight:700;color:var(--ink);border-left:4px solid var(--signal);padding-left:10px;margin-top:4px}
+.fold-body>section.band{padding-block:24px 36px}
+.fold-body>section .wrap{max-width:none;padding-left:20px;padding-right:20px}
+.fold-body>section.stack{padding-top:0}
+.fold-body .pricing{margin-top:0}
+@media (min-width:821px){.fold-body>section .wrap{padding-left:32px;padding-right:32px}}
+
+/* 試算模式 */
+.roi-tabs{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:4px;margin:0 0 20px}
+.roi-tabs button{font:inherit;font-size:15px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:10px 14px;border-radius:9px;cursor:pointer;min-height:44px}
+.roi-tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.roi-tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.roi .fields.f4{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:640px){.roi .fields.f4{grid-template-columns:1fr}}
+.claim-full{background:var(--paper);border:2px solid var(--accent);border-radius:14px;padding:22px 24px;margin:0 0 28px}
+.claim-full h3{font-size:clamp(19px,2vw,24px);margin:0 0 8px}
+.claim-full p{margin:0 0 8px}
+.claim-full h4{font-size:clamp(17px,1.7vw,20px);margin:14px 0 6px}
+.claim-full .small{margin:0}
+
+/* 引言 */
+.quote{font-size:clamp(20px,2.4vw,28px);line-height:1.6;font-weight:700;max-width:30em;margin:28px 0 0;padding-left:28px;border-left:6px solid var(--signal)}
+
+/* 示範企業與方案 */
+.pricing{margin-top:8px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:36px}
+.pricing-h{font-size:22px;margin:0 0 20px}
+.plan-table{width:100%;border-collapse:collapse;font-size:16px}
+.plan-table th,.plan-table td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+.plan-table thead th{font-size:17px;font-weight:900;border-bottom:2px solid var(--ink)}
+.plan-table tbody th{font-weight:500;color:var(--muted);width:20%;white-space:nowrap}
+.plan-table td:nth-child(2),.plan-table th.pilot-col{background:var(--signal-soft)}
+.plan-table tbody tr:first-child td{font-weight:900;font-size:22px}
+.plan-cards{display:none}
+.fine{margin:24px 0 0;padding-left:1.2em;display:grid;gap:6px;font-size:14px;color:var(--muted);max-width:60em}
+.hero-note{margin-top:22px;font-size:15px}
+.hero-note a{font-weight:500}
+@media (max-width:760px){
+  .pricing{padding:20px}
+  .plan-table{display:none}
+  .plan-cards{display:grid;gap:16px}
+  .plan-card{border:1px solid var(--line);border-radius:14px;padding:18px}
+  .plan-card.pilot-card{border:2px solid var(--signal);background:var(--signal-soft)}
+  .plan-card h3{margin:0 0 10px}
+  .plan-card dl{margin:0;display:grid;gap:8px}
+  .pc-row{display:grid;grid-template-columns:6.5em 1fr;gap:10px;font-size:15px}
+  .pc-row dt{color:var(--muted)}
+  .pc-row dd{margin:0;font-weight:500}
+  .pc-row:first-child dd{font-weight:900;font-size:18px}
+}
+
+/* 常見問題 */
+.faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+@media (max-width:800px){.faq{grid-template-columns:1fr}}
+.faq details{background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.faq summary{cursor:pointer;list-style:none;padding:20px 56px 20px 22px;font-weight:700;font-size:17px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:22px;top:50%;width:10px;height:10px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:translateY(-70%) rotate(45deg);transition:transform .2s}
+.faq details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq details p{padding:0 22px 20px;margin:0;color:var(--muted)}
+
+/* 開始 */
+.start{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:48px}
+@media (max-width:900px){.start{grid-template-columns:1fr;padding:28px;gap:24px}}
+.start ol{list-style:none;padding:0;margin:20px 0 28px;display:grid;gap:14px;counter-reset:s}
+.start ol li{counter-increment:s;display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start}
+.start ol li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:15px}
+.start .side{border-left:1px solid var(--line);padding-left:40px;align-self:center}
+@media (max-width:900px){.start .side{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:24px}}
+
+/* 頁尾 */
+footer{background:var(--deep);color:var(--deep-muted);padding-block:56px 40px;font-size:15px}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr;gap:32px}
+@media (max-width:800px){footer .cols{grid-template-columns:1fr}}
+footer h4{color:var(--deep-ink);font-size:15px;margin:0 0 10px}
+footer a{color:var(--deep-ink)}
+footer ul{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+footer .brand{color:var(--deep-ink)}
+footer .base{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);font-size:13px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== 流動寬度：內容寬度跟著視窗走（約 92vw，2080px 封頂）。
+   1440px 以下字級與間距維持原樣；1440→2560px 之間線性放大，2560px 到頂。
+   --d 在 1440px 為 0px、2560px 為 1px，用法：calc(原值 + 差值 * var(--d))。 ===== */
+.wrap{width:min(100% - 2 * max(16px,4vw,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px)),2080px);max-width:none;margin-inline:auto;padding-left:0;padding-right:0}
+@media (min-width:1441px){
+  :root{--d:calc((100vw - 1440px) / 1120);--nav:clamp(68px,calc(68px + 12 * var(--d)),80px)}
+  body{font-size:clamp(17px,calc(17px + 3 * var(--d)),20px)}
+  .brand{font-size:clamp(19px,calc(19px + 4 * var(--d)),23px)}
+  .links{font-size:clamp(15px,calc(15px + 2 * var(--d)),17px);gap:clamp(22px,calc(22px + 14 * var(--d)),36px)}
+  .topbar .btn{font-size:clamp(15px,calc(15px + 2 * var(--d)),17px);padding:10px 22px}
+  .btn{padding:clamp(13px,calc(13px + 4 * var(--d)),17px) clamp(24px,calc(24px + 10 * var(--d)),34px)}
+  .band{padding-block:clamp(96px,calc(96px + 44 * var(--d)),140px)}
+  .band.slim{padding-block:clamp(64px,calc(64px + 32 * var(--d)),96px)}
+  .kicker{font-size:clamp(15px,calc(15px + 2 * var(--d)),17px)}
+  h2{font-size:clamp(40px,calc(40px + 20 * var(--d)),60px)}
+  h3{font-size:clamp(19px,calc(19px + 4 * var(--d)),23px)}
+  .small{font-size:clamp(14px,calc(14px + 2 * var(--d)),16px)}
+  .sec-head{margin-bottom:clamp(40px,calc(40px + 16 * var(--d)),56px)}
+
+  /* 首屏與主視覺 */
+  .hero{padding-top:calc(var(--nav) + clamp(64px,calc(64px + 40 * var(--d)),104px));padding-bottom:clamp(96px,calc(96px + 44 * var(--d)),140px)}
+  .hero .wrap{gap:clamp(56px,calc(56px + 64 * var(--d)),120px)}
+  .hero h1{font-size:clamp(52px,calc(52px + 36 * var(--d)),88px)}
+  .hero .lead{font-size:clamp(18px,calc(18px + 4 * var(--d)),22px)}
+  .hero-note{font-size:clamp(15px,calc(15px + 2 * var(--d)),17px)}
+  .panel{padding:clamp(28px,calc(28px + 16 * var(--d)),44px);border-radius:22px}
+  .panel-top b{font-size:clamp(16px,calc(16px + 5 * var(--d)),21px)}
+  .cells{gap:clamp(10px,calc(10px + 8 * var(--d)),18px)}
+  .cell{padding:clamp(10px,calc(10px + 8 * var(--d)),18px);border-radius:14px}
+  .cell .n{font-size:clamp(13px,calc(13px + 5 * var(--d)),18px)}
+  .cell svg{width:clamp(26px,calc(26px + 16 * var(--d)),42px);height:clamp(26px,calc(26px + 16 * var(--d)),42px)}
+  .cell .t{font-size:clamp(12px,calc(12px + 5 * var(--d)),17px)}
+  .legend{font-size:clamp(14px,calc(14px + 3 * var(--d)),17px)}
+
+  /* 零九比例 */
+  .split{gap:clamp(64px,calc(64px + 56 * var(--d)),120px)}
+  .ratio{padding:clamp(28px,calc(28px + 16 * var(--d)),44px)}
+  .ratio .meter{height:clamp(56px,calc(56px + 16 * var(--d)),72px)}
+  .ratio .meter span{font-size:clamp(17px,calc(17px + 4 * var(--d)),21px)}
+  .ratio h3{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+  .ratio li{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+
+  /* 卡片 */
+  .grid3,.grid2{gap:clamp(24px,calc(24px + 12 * var(--d)),36px)}
+  .card{padding:clamp(28px,calc(28px + 12 * var(--d)),40px)}
+  .icon{width:clamp(44px,calc(44px + 12 * var(--d)),56px);height:clamp(44px,calc(44px + 12 * var(--d)),56px)}
+  .icon svg{width:clamp(24px,calc(24px + 6 * var(--d)),30px);height:clamp(24px,calc(24px + 6 * var(--d)),30px)}
+  .bf .was,.bf .now{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px);grid-template-columns:clamp(42px,calc(42px + 10 * var(--d)),52px) 1fr}
+  .bf .tag{font-size:clamp(12px,calc(12px + 2 * var(--d)),14px)}
+  .note-card{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+
+  /* 試算 */
+  .roi{gap:clamp(32px,calc(32px + 24 * var(--d)),56px)}
+  .metrics{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+  .metrics th{font-size:clamp(13px,calc(13px + 3 * var(--d)),16px)}
+  .metrics th,.metrics td{padding:clamp(10px,calc(10px + 4 * var(--d)),14px) clamp(10px,calc(10px + 6 * var(--d)),16px)}
+  .roi-inputs label{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+  .roi-out{padding:clamp(32px,calc(32px + 16 * var(--d)),48px);gap:clamp(26px,calc(26px + 10 * var(--d)),36px)}
+  .roi-out .k{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+  .roi-out .v{font-size:clamp(42px,calc(42px + 18 * var(--d)),60px)}
+  .roi-out .s{font-size:clamp(14px,calc(14px + 2 * var(--d)),16px)}
+  .commit{padding:clamp(24px,calc(24px + 12 * var(--d)),36px) clamp(28px,calc(28px + 12 * var(--d)),40px)}
+  .commit .who{font-size:clamp(13px,calc(13px + 2 * var(--d)),15px)}
+  .commit b{font-size:clamp(20px,calc(20px + 6 * var(--d)),26px)}
+  .commit .muted{font-size:clamp(14px,calc(14px + 2 * var(--d)),16px)}
+
+  /* 六步驟、交付 */
+  .flow{gap:clamp(16px,calc(16px + 16 * var(--d)),32px)}
+  .flow .when{font-size:clamp(13px,calc(13px + 2 * var(--d)),15px)}
+  .flow summary h3{font-size:clamp(17px,calc(17px + 4 * var(--d)),21px)}
+  .flow details p{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+  .principle{font-size:clamp(18px,calc(18px + 4 * var(--d)),22px);padding:clamp(22px,calc(22px + 10 * var(--d)),32px) clamp(26px,calc(26px + 12 * var(--d)),38px)}
+  .tree{max-width:clamp(560px,calc(560px + 200 * var(--d)),760px)}
+  .server-art{max-width:clamp(520px,calc(520px + 200 * var(--d)),720px)}
+  .phases{gap:clamp(24px,calc(24px + 12 * var(--d)),36px)}
+  .phases p{font-size:clamp(15.5px,calc(15.5px + 2.5 * var(--d)),18px)}
+  .phase-note{font-size:clamp(14px,calc(14px + 2 * var(--d)),16px)!important}
+  .days-mini{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+  .days-mini .tag,.day .tag{font-size:clamp(13px,calc(13px + 2 * var(--d)),15px)}
+  .more summary{font-size:clamp(17px,calc(17px + 3 * var(--d)),20px)}
+
+  /* 成效表、示意畫面 */
+  .perf{gap:clamp(40px,calc(40px + 32 * var(--d)),72px)}
+  .ptable{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+  .ptable th{font-size:clamp(13px,calc(13px + 3 * var(--d)),16px)}
+  .ptable th,.ptable td{padding:clamp(14px,calc(14px + 4 * var(--d)),18px) clamp(16px,calc(16px + 6 * var(--d)),22px)}
+  .demo-wrap{gap:clamp(48px,calc(48px + 40 * var(--d)),88px)}
+  .mock-bar,.mock-meta,.mock-actions span{font-size:clamp(13px,calc(13px + 2 * var(--d)),15px)}
+  .mock table{font-size:clamp(14px,calc(14px + 3 * var(--d)),17px)}
+  .mock th,.demo-tag,.kpi .l,.kpi .d{font-size:clamp(12px,calc(12px + 2 * var(--d)),14px)}
+  .ai-note{font-size:clamp(13px,calc(13px + 3 * var(--d)),16px)}
+  .kpi .v{font-size:clamp(24px,calc(24px + 8 * var(--d)),32px)}
+  .caption{font-size:clamp(14px,calc(14px + 2 * var(--d)),16px)}
+  .case-tag{font-size:clamp(13px,calc(13px + 2 * var(--d)),15px)}
+  .quote{font-size:clamp(28px,calc(28px + 12 * var(--d)),40px)}
+
+  /* 方案表 */
+  .pricing{padding:clamp(36px,calc(36px + 20 * var(--d)),56px)}
+  .pricing-h{font-size:clamp(22px,calc(22px + 6 * var(--d)),28px)}
+  .plan-table{font-size:clamp(16px,calc(16px + 3 * var(--d)),19px)}
+  .plan-table th,.plan-table td{padding:clamp(14px,calc(14px + 6 * var(--d)),20px) clamp(18px,calc(18px + 10 * var(--d)),28px)}
+  .plan-table thead th{font-size:clamp(17px,calc(17px + 5 * var(--d)),22px)}
+  .plan-table tbody tr:first-child td{font-size:clamp(22px,calc(22px + 8 * var(--d)),30px)}
+  .fine{font-size:clamp(14px,calc(14px + 2 * var(--d)),16px)}
+
+  /* 常見問題、開始、頁尾 */
+  .faq{gap:clamp(16px,calc(16px + 12 * var(--d)),28px)}
+  .faq summary{font-size:clamp(17px,calc(17px + 3 * var(--d)),20px)}
+  .start{padding:clamp(48px,calc(48px + 24 * var(--d)),72px);gap:clamp(48px,calc(48px + 40 * var(--d)),88px)}
+  .start .side{padding-left:clamp(40px,calc(40px + 24 * var(--d)),64px)}
+  footer{font-size:clamp(15px,calc(15px + 2 * var(--d)),17px)}
+  footer h4{font-size:clamp(15px,calc(15px + 2 * var(--d)),17px)}
+  footer .base{font-size:clamp(13px,calc(13px + 2 * var(--d)),15px)}
+}
+/* 卡片多（8 張以上）的區塊在 1600px 以上改 4 欄；補充說明卡橫跨整列 */
+@media (min-width:1600px){
+  .grid3:has(> :nth-child(5)){grid-template-columns:repeat(4,minmax(0,1fr))}
+  .grid3:has(> :nth-child(5)) > .note-card{grid-column:1/-1}
+}
+
+/* 第二輪：白話說明、比較表、示範試算、合約重點、關於我們 */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.plain{background:var(--signal-soft);border-left:4px solid var(--signal);border-radius:8px;padding:10px 14px;font-size:.94em;max-width:42em}
+.deep .plain{color:var(--ink)}
+.callback{margin:12px 0 0}
+.band:not(.alt):not(.deep) + .band:not(.alt):not(.deep){border-top:1px solid var(--line)}
+.ctable{width:100%;border-collapse:collapse;background:var(--paper);border-radius:14px;overflow:hidden;font-size:15px}
+.ctable th,.ctable td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+.ctable thead th{font-size:15px;font-weight:900;border-bottom:2px solid var(--ink)}
+.ctable tbody th{font-weight:700;white-space:nowrap}
+.ctable tbody tr:last-child th,.ctable tbody tr:last-child td{border-bottom:0}
+.ctable .us{background:var(--signal-soft);font-weight:500}
+.ctable thead .us{font-weight:900}
+.ex{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:start}
+.ex-calc ul.clean{font-size:15.5px}
+.ex-link{margin:18px 0 0;font-weight:700}
+.terms{margin-top:32px;padding-top:28px;border-top:1px solid var(--line)}
+.terms dl{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 40px}
+.terms dt{font-weight:700}
+.terms dd{margin:2px 0 0;color:var(--muted);font-size:15px}
+.about{margin-top:40px;padding-top:28px;border-top:1px solid rgba(255,255,255,.16);max-width:48em}
+.about h3{color:var(--deep-ink)}
+.about p{color:var(--deep-muted)}
+@media (max-width:1000px){.ex{grid-template-columns:1fr}}
+@media (max-width:760px){
+  .terms dl{grid-template-columns:1fr}
+  .ctable thead{display:none}
+  .ctable,.ctable tbody,.ctable tr,.ctable th,.ctable td{display:block}
+  .ctable{background:transparent;border-radius:0}
+  .ctable tr{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+  .ctable tbody th{font-size:17px;padding:0 0 8px;border:0;white-space:normal}
+  .ctable td{border:0;padding:8px 0 0;font-size:15px}
+  .ctable td::before{content:attr(data-label);display:block;font-size:13px;font-weight:700;color:var(--muted)}
+  .ctable td.us{background:var(--signal-soft);border-radius:8px;padding:8px 10px;margin-top:8px}
+}
+@media (min-width:1441px){
+  .ctable,.ctable thead th{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+  .ctable th,.ctable td{padding:clamp(14px,calc(14px + 6 * var(--d)),20px) clamp(16px,calc(16px + 8 * var(--d)),24px)}
+  .ex{gap:clamp(32px,calc(32px + 24 * var(--d)),56px)}
+  .ex-calc ul.clean,.terms dd{font-size:clamp(15px,calc(15px + 3 * var(--d)),18px)}
+  .terms dl{gap:clamp(16px,calc(16px + 8 * var(--d)),24px) clamp(40px,calc(40px + 24 * var(--d)),64px)}
+}
+/* 第三輪：做與不做、一頁摘要入口 */
+.scope{margin-top:40px}
+.scope-h{font-size:22px;margin:0 0 20px}
+.scope .card h3{margin:0}
+.scope-note{margin:20px 0 0}
+.summary-cta{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+@media (min-width:1441px){.scope-h{font-size:clamp(22px,calc(22px + 6 * var(--d)),28px)}}
+/* 聯絡窗口 */
+.contact{margin:10px 0 0;font-size:15px;font-weight:500}
+.contact [hidden]{display:none!important}
+.about-row{display:flex;gap:20px;align-items:flex-start}
+.avatar{flex:none;width:72px;height:72px;border-radius:50%;background:var(--signal);color:var(--signal-ink);display:grid;place-items:center;font-weight:900;font-size:32px;line-height:1}
+footer .contact{color:var(--deep-ink)}
+</style>
+</head>
+<body>
+
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="#top" aria-label="零九顧問">
+    <svg width="30" height="24" viewBox="0 0 30 24" aria-hidden="true"><g fill="var(--accent)" style="fill:var(--accent)"><rect x="0" y="0" width="4.6" height="10.6" rx="1.2"/><rect x="6.1" y="0" width="4.6" height="10.6" rx="1.2"/><rect x="12.2" y="0" width="4.6" height="10.6" rx="1.2"/><rect x="18.3" y="0" width="4.6" height="10.6" rx="1.2"/><rect x="24.4" y="0" width="4.6" height="10.6" rx="1.2"/><rect x="0" y="13" width="4.6" height="10.6" rx="1.2"/><rect x="6.1" y="13" width="4.6" height="10.6" rx="1.2"/><rect x="12.2" y="13" width="4.6" height="10.6" rx="1.2"/><rect x="18.3" y="13" width="4.6" height="10.6" rx="1.2"/></g><rect x="24.4" y="13" width="4.6" height="10.6" rx="1.2" style="fill:var(--signal)"/></svg>
+    <span>零九顧問</span>
+  </a>
+  <nav class="links" aria-label="頁面導覽">
+    <a href="#roi">算算看</a>
+    <a href="#method">方法</a>
+    <a href="#cases">案例</a>
+    <a href="#faq">常見問題</a>
+  </nav>
+  <div class="mode" role="group" aria-label="頁面版本">
+    <button type="button" data-mode="brief" aria-pressed="true">重點<span class="long">版</span></button>
+    <button type="button" data-mode="detail" aria-pressed="false">詳細<span class="long">版</span></button>
+  </div>
+  <a class="btn" id="navCall" href="https://docs.google.com/forms/d/e/1FAIpQLSfOkpTMlLoB_otpgyqpfiGL3hQba6UQB15jVnhM-VMm3sH5qQ/viewform" target="_blank" rel="noopener"><span class="long">請顧問打電話給我</span><span class="short">請顧問回電</span></a>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap">
+  <div>
+    <p class="kicker">全台中小企業 AI 導入輔導</p>
+    <h1><span class="ln">大部分例行工作交給 AI，</span><span class="ln">最有價值的事留給你的人</span></h1>
+    <p class="lead">請不到人？把重複的工作交給 AI，人留給更有價值的事。</p>
+    <div class="cta-row">
+      <a class="btn" href="#pain">30 秒看看你的公司能省多少</a>
+    </div>
+  </div>
+  <figure class="panel" style="margin:0" aria-label="概念圖：大部分例行工作交給 AI 自動化，最有價值的一格留給你的人">
+    <div class="panel-top"><b>例行交給 AI，判斷留給人</b></div>
+    <div class="cells">
+      <div class="cell"><span class="n">0</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="t">AI 自動化</span></div>
+      <div class="cell"><span class="n">1</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="t">AI 自動化</span></div>
+      <div class="cell"><span class="n">2</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="t">AI 自動化</span></div>
+      <div class="cell"><span class="n">3</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="t">AI 自動化</span></div>
+      <div class="cell"><span class="n">4</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="t">AI 自動化</span></div>
+      <div class="cell"><span class="n">5</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="t">AI 自動化</span></div>
+      <div class="cell"><span class="n">6</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="t">AI 自動化</span></div>
+      <div class="cell"><span class="n">7</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="t">AI 自動化</span></div>
+      <div class="cell"><span class="n">8</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="t">AI 自動化</span></div>
+      <div class="cell you"><span class="n">9</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7.5" r="3.5"/><path d="M4.5 21c.8-4.2 3.8-6.5 7.5-6.5s6.7 2.3 7.5 6.5"/></svg><span class="t">你的人</span></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--cell);border:1px solid var(--accent)"></i>例行、重複：交給 AI</span><span><i style="background:var(--signal)"></i>判斷、決策、經營客戶：留給人</span></div>
+  </figure>
+</div></section>
+
+<section class="wins" aria-label="實際成果"><div class="wrap">
+  <p class="wins-k">真實輔導案例的成果（含導入後的系統擴充）</p>
+  <ul>
+    <li>排班和派工：每天 4–8 小時 → 0</li>
+    <li>整理報告、追蹤進度：每天要專人做 → 0，數據即時看得到</li>
+    <li>相關工時減少約七成</li>
+  </ul>
+  <p class="src">真實輔導案例，為保護客戶不公開公司名稱。排班、派工、報告這類系統是打好基礎後另外擴充的，不在 12 萬示範方案內。</p>
+</div></section>
+
+<section class="stats" aria-label="缺工數據"><div class="wrap">
+  <ul>
+    <li>找一個人，平均要 45 天</li>
+    <li>新人只有約 6 成待得滿半年</li>
+    <li>97.7% 的企業招募時遇過難題</li>
+  </ul>
+  <p class="src">資料來源：<a href="https://blog.104.com.tw/104data-fbi-report-2026/" target="_blank" rel="noopener">104 人力銀行《2026 年人資 FBI 報告》</a></p>
+</div></section>
+
+<section class="band" id="pain"><div class="wrap">
+  <div class="sec-head">
+    <p class="kicker">你的公司是不是也這樣？</p>
+    <h2>這些事，每天都在吃掉你的人力</h2>
+  </div>
+  <ul class="pain-list">
+    <li><label><input type="checkbox" name="pain" value="1" data-short="請不到人，新人很快又走" aria-describedby="fix1"><span>請不到人，好不容易請到，新人沒多久又走了</span></label><p class="fix" id="fix1" hidden><b>對策：</b>把重複的文書交給 AI，現有的人就夠用，新人也比較快上手。</p></li>
+    <li><label><input type="checkbox" name="pain" value="2" data-short="業助、行政天天加班，產出沒變多" aria-describedby="fix2"><span>業助、行政天天加班，產出卻沒有變多</span></label><p class="fix" id="fix2" hidden><b>對策：</b>先找出最花時間的 2 個流程，讓 AI 打草稿、人只確認。</p></li>
+    <li><label><input type="checkbox" name="pain" value="3" data-short="報價要翻舊單、問老師傅" aria-describedby="fix3"><span>報價要翻舊單、問老師傅，回得慢，訂單就跑了</span></label><p class="fix" id="fix3" hidden><b>對策：</b>把價目、舊報價和工時規則整理好，AI 幾分鐘產出報價草稿。</p></li>
+    <li><label><input type="checkbox" name="pain" value="4" data-short="出貨單、報表常常打錯" aria-describedby="fix4"><span>出貨單、報表常常打錯，一直重做</span></label><p class="fix" id="fix4" hidden><b>對策：</b>資料進來就自動產出文件，人只看有異常的部分。</p></li>
+    <li><label><input type="checkbox" name="pain" value="5" data-short="老師傅的經驗都在腦袋裡" aria-describedby="fix5"><span>老師傅的經驗都在腦袋裡，人一走就沒了</span></label><p class="fix" id="fix5" hidden><b>對策：</b>訪談錄音交給 AI 整理成公司自己的知識，新人隨時查得到。</p></li>
+    <li><label><input type="checkbox" name="pain" value="6" data-short="老闆被簽核、對帳、回訊息綁住" aria-describedby="fix6"><span>老闆每天被簽核、對帳、回訊息綁住，沒時間想下一步</span></label><p class="fix" id="fix6" hidden><b>對策：</b>AI 每週彙整成一頁，只列出需要你決定的事。</p></li>
+    <li><label><input type="checkbox" name="pain" value="7" data-short="資料散在電腦、Excel、LINE" aria-describedby="fix7"><span>資料散在每個人的電腦、Excel 和 LINE 裡，要用時找不到</span></label><p class="fix" id="fix7" hidden><b>對策：</b>先把共用資料和帳號整理到公司名下，AI 才找得到、用得上。整合之後，AI 還能主動提醒客戶、訂單和團隊的異常。</p></li>
+    <li><label><input type="checkbox" name="pain" value="8" data-short="買了系統或 AI 卻沒人用" aria-describedby="fix8"><span>買了系統或 AI 帳號，卻沒什麼人在用</span></label><p class="fix" id="fix8" hidden><b>對策：</b>不是再買工具，而是教會 1–2 位同事帶著大家用。</p></li>
+  </ul>
+  <div class="claim">
+    <p class="c1">投入 12 萬，前 2 個流程約半年回本</p>
+    <p class="c-sub">一年約省回 21–23 萬（以 50 人公司示範試算）</p>
+    <p class="c2">全面導入後，目標一年釋放 100 萬以上的人力價值</p>
+    <p class="c-sub">員工自己長出更多工具、加上後續擴充後才達得到；約等於 2 位全職行政一年的時間。<a href="#example">看推算方式</a></p>
+  </div>
+  <div class="premise" aria-labelledby="premiseH">
+    <p class="p-h" id="premiseH">先說清楚三件事</p>
+    <ol>
+      <li>不用換掉現有的系統或進銷存，我們直接用你現在的資料。</li>
+      <li>圖面、底價這類機密資料可以完全不進 AI，第 1 天就一起訂好規則。</li>
+      <li>公司需要 1–2 位同事每週撥出約 4 小時；找不到人的話，先不要約，我們也會直接說。</li>
+    </ol>
+  </div>
+  <div class="result" id="painResult" aria-live="polite">
+    <p class="r-hint" id="painHint">勾選符合的項目，看看建議從哪裡開始。</p>
+    <div id="painOut" hidden>
+      <p class="r-main" id="painMain"></p>
+      <div class="r-cta"><a class="btn" id="painCall" href="https://docs.google.com/forms/d/e/1FAIpQLSfOkpTMlLoB_otpgyqpfiGL3hQba6UQB15jVnhM-VMm3sH5qQ/viewform" target="_blank" rel="noopener">請顧問打電話給我</a><span class="r-note">免費，30 分鐘，不推銷</span></div>
+      <a class="r-roi" href="#roi">先自己算算看能省多少</a>
+    </div>
+  </div>
+  <p class="flow-contact contact">聯絡窗口：黃泰翔<span class="contact-tel" hidden>電話：</span><span class="contact-line" hidden>LINE：</span></p>
+</div></section>
+<script>
+(function(){
+  var CALL="https://docs.google.com/forms/d/e/1FAIpQLSfOkpTMlLoB_otpgyqpfiGL3hQba6UQB15jVnhM-VMm3sH5qQ/viewform",ENTRY="entry.253560875";
+  var box=document.querySelectorAll('#pain input[name="pain"]');
+  var hint=document.getElementById('painHint'),out=document.getElementById('painOut'),main=document.getElementById('painMain');
+  var links=[document.getElementById('painCall'),document.getElementById('navCall')];
+  function upd(){
+    var picked=[];
+    for(var i=0;i<box.length;i++){
+      var fx=document.getElementById(box[i].getAttribute('aria-describedby'));
+      fx.hidden=!box[i].checked;
+      if(box[i].checked)picked.push(box[i].getAttribute('data-short'));
+    }
+    var href=picked.length?CALL+'?usp=pp_url&'+ENTRY+'='+encodeURIComponent(picked.join('、')):CALL;
+    links.forEach(function(a){if(a)a.href=href;});
+    if(!picked.length){hint.hidden=false;out.hidden=true;return;}
+    hint.hidden=true;out.hidden=false;
+    main.textContent='你勾了 '+picked.length+' 項。建議先從「'+picked[0]+'」開始。';
+  }
+  for(var i=0;i<box.length;i++)box[i].addEventListener('change',upd);
+  upd();
+})();
+</script>
+
+<section class="band alt rules" id="rules"><div class="wrap">
+  <div class="sec-head">
+    <p class="kicker">兩個例子：請假與採購</p>
+    <h2>大部分的審核，其實都在蓋橡皮圖章</h2>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3>請假</h3>
+      <dl>
+        <div><dt>以前</dt><dd>員工填單 → 跟主管報告 → 層層審核 → 核准 → 有人去改行事曆 → 有人去改工單。每一關都要等，主管多半只是按下同意。</dd></div>
+        <div><dt class="after">導入後</dt><dd>員工送出申請 → 符合規則就自動核准，行事曆和工單自動更新 → 主管只收到一則通知。超過設定的門檻（例如同一天太多人請假）才停下來，轉給主管人工審核。</dd></div>
+      </dl>
+    </div>
+    <div class="card">
+      <h3>採購</h3>
+      <dl>
+        <div><dt>以前</dt><dd>買 100 元、1,000 元的東西也要層層簽核。主管記不得這麼多小事，只能照按；要不要買、買得貴不貴，其實是採購說了算。簽核一大堆，不代表有省到錢。</dd></div>
+        <div><dt class="after">導入後</dt><dd><ul><li>小額採購直接買，主管只看報表。</li><li>超過設定金額（例如 5 萬、10 萬）才送主管簽核；更高的金額，財務經理才需要關切。</li><li>每一張請購，AI 先幫忙找幾家比價，列出價格、交期和供應商過去的評價，再交給人決定。</li></ul></dd></div>
+      </dl>
+    </div>
+  </div>
+  <p class="rules-big">主管的時間，應該留給重要的決策。規則交給 AI，例外才找人。</p>
+  <p class="small">同樣的做法也適用在加班、費用報銷這類審核；門檻金額由公司自己決定，以上只是示範。</p>
+</div></section>
+
+<section class="band datafy" id="datafy"><div class="wrap">
+  <div class="sec-head">
+    <p class="kicker">經營數位化</p>
+    <h2>資料串起來，數字自己會提醒你</h2>
+    <p>很多公司有系統，但會計、業務、人事各用各的，資料兜不起來，要分析只能靠人工拉 Excel。我們先把經營資料整合到公司自己的資料庫，AI 每天幫你看，有狀況才通知主管。</p>
+  </div>
+  <p class="quote datafy-q">「以前的報表由人做、一層一層往上交，老闆最後只看得到好的一面。」</p>
+  <div class="grid4">
+    <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.3 2.8-5.2 5.5-5.2s4.9 1.9 5.5 5.2"/><path d="M15.5 7.5h5M18 5v5"/><circle cx="18" cy="16.5" r="3"/><path d="M18 15v1.7l1 .8"/></svg>客戶</h3><p>哪個客戶開始拖欠帳款、付款天數越拖越長，提早提醒業務和財務。</p></div>
+    <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5h17"/><rect x="5" y="12" width="3" height="6" rx=".8"/><rect x="10.5" y="8.5" width="3" height="9.5" rx=".8"/><rect x="16" y="4" width="3" height="14" rx=".8"/><path d="m4.5 8 4-3 3.5 2 5-4.5"/></svg>訂單與產品</h3><p>哪個客戶的訂單金額明顯變大，哪個產品突然賣得特別好，馬上看得到，備料和業務都能提早反應。</p></div>
+    <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="3"/><circle cx="5" cy="10" r="2.3"/><circle cx="19" cy="10" r="2.3"/><path d="M6.5 20c.4-3.6 2.6-5.6 5.5-5.6s5.1 2 5.5 5.6"/><path d="M1.8 18c.3-2.3 1.5-3.6 3.2-3.8M22.2 18c-.3-2.3-1.5-3.6-3.2-3.8"/></svg>團隊</h3><p>哪位同事最近請假變得頻繁、加班突然變多，提醒主管主動關心，在問題變大之前先談。</p></div>
+    <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14.5 3v4.5H19"/><path d="M9 17v-3M12 17v-5M15 17v-2"/></svg>報表與績效</h3><p>報表直接從資料庫產生，不經人手層層整理，有沒有出錯、哪裡出問題，老闆都看得到真實的數字。主管評估績效時，也有一致的資料可以參考，不用憑印象。</p></div>
+  </div>
+  <p class="small">數據只給有權限的主管看；員工相關的資料用來關心人、公平評估，不拿來監控或處罰，並遵守個資法。</p>
+</div></section>
+
+<section class="band folds-band" id="details"><div class="wrap">
+  <div class="sec-head">
+    <h2>想看細節？</h2>
+    <p>點開想看的部分；或切到右上角的「詳細版」一次全部展開。</p>
+  </div>
+  <div class="folds">
+<details class="fold" id="why"><summary><span class="fold-k">為什麼叫零九</span><span class="fold-t">0 到 9 交給我們，第 10 分由你來</span></summary><div class="fold-body">
+<section class="band alt"><div class="wrap split">
+  <div>
+    <p>公司裡大部分工作是例行、重複的，這 0 到 9 交給 AI；最有價值的判斷和決策，留給你和員工。</p>
+    <p>很多公司買了 AI 帳號卻沒人在用。我們教會員工（包括文員與業務助理）自己做出天天用得到的小工具，不是我們代做；再培養 1–2 位種子人員，我們離開後也能繼續。</p>
+    <p class="plain"><b>種子人員</b>＝公司裡負責帶頭的 1–2 位同事，會用 Excel 就夠，不用會寫程式。</p>
+  </div>
+  <div class="ratio" aria-hidden="true">
+    <div class="meter"><span class="ai">例行、重複</span><span class="human">人</span></div>
+    <div class="lists">
+      <div class="l-ai"><h3>交給 AI 自動化</h3><ul><li>整理資料</li><li>填表</li><li>報價</li><li>對帳</li><li>出貨文件</li></ul></div>
+      <div class="l-human"><h3>留給你和你的員工</h3><ul><li>判斷</li><li>決策</li><li>經營客戶</li><li>開發新生意</li></ul></div>
+    </div>
+  </div>
+</div></section>
+</div></details>
+<details class="fold" id="principle"><summary><span class="fold-k">我們的原則</span><span class="fold-t">導入 AI，是讓員工加值，不是裁員</span><span class="fold-x q">「員工怎麼會努力導入一個會讓自己被裁掉的東西？」</span></summary><div class="fold-body">
+<section class="band deep pledge"><div class="wrap">
+  <div class="sec-head">
+  </div>
+  <p class="pledge-lead">很多公司導入 AI 是為了裁員，結果員工表面配合、私下抗拒，工具買了也沒人用。我們相信 AI 該讓員工用多出來的時間，提升自己的價值和待遇，公司才能長久成長。所以每一家合作的公司，我們都會一起做到這三件事：</p>
+  <div class="grid3">
+    <div class="card"><span class="pno">1</span><h3>導入前的員工承諾</h3><p>簽約時，請老闆向全體員工承諾：不會因為這次導入 AI 而裁員；省下的時間用來接更多生意、學新技能。第 1 天的全員說明會，由老闆親口說。</p></div>
+    <div class="card"><span class="pno">2</span><h3>省下來的，分一部分給員工</h3><p>我們會建議公司把一部分節省的成本，變成員工的獎勵，例如種子人員津貼、好工具獎金或調薪。比例由公司決定，我們提供做法。</p></div>
+    <div class="card"><span class="pno">3</span><h3>讓員工看得到自己的成長</h3><p>結案時，種子人員和參與的同事會拿到一份「AI 工作能力紀錄」，寫明做出了哪些工具、省了多少時間，可以當作升遷和調薪的參考。</p></div>
+  </div>
+  <p class="pledge-lead" style="margin-top:24px">員工要做的，是 AI 處理不了的判斷和例外；重複的步驟，AI 會照著大家的做法，慢慢接手。</p>
+</div></section>
+</div></details>
+<details class="fold" id="manual"><summary><span class="fold-k">你以為只能人工做的事</span><span class="fold-t">每天都這樣做，不代表只能這樣做</span></summary><div class="fold-body">
+<section class="band"><div class="wrap">
+  <div class="sec-head">
+    <p>員工不是不努力，而是想不到這些事可以交給 AI。</p>
+  </div>
+  <div class="grid3">
+    <article class="card">
+      <ul class="bf">
+        <li><div class="was"><span class="tag">以前</span><span>翻舊報價單複製修改，一份半小時以上</span></div><div class="now"><span class="tag">現在</span><b>AI 依需求和價目表，幾分鐘產出報價草稿</b></div></li>
+      </ul>
+    </article>
+    <article class="card">
+      <ul class="bf">
+        <li><div class="was"><span class="tag">以前</span><span>手動做出貨單、裝箱單，格式依客戶不同</span></div><div class="now"><span class="tag">現在</span><b>AI 依客戶格式自動產出，人只看異常</b></div></li>
+      </ul>
+    </article>
+    <article class="card">
+      <ul class="bf">
+        <li><div class="was"><span class="tag">以前</span><span>逐家寫詢價信、整理比價表、寫簽呈</span></div><div class="now"><span class="tag">現在</span><b>AI 產生詢價信和比價表，請購依金額自動送簽</b></div></li>
+      </ul>
+    </article>
+    <article class="card">
+      <ul class="bf">
+        <li><div class="was"><span class="tag">以前</span><span>收據一張一張輸入 Excel</span></div><div class="now"><span class="tag">現在</span><b>拍照由 AI 轉成費用明細</b></div></li>
+      </ul>
+    </article>
+    <article class="card">
+      <ul class="bf">
+        <li><div class="was"><span class="tag">以前</span><span>每天逐人對照打卡和日報，找漏報、找加班</span></div><div class="now"><span class="tag">現在</span><b>系統每天比對，只列出有問題的人</b></div></li>
+      </ul>
+    </article>
+    <article class="card">
+      <ul class="bf">
+        <li><div class="was"><span class="tag">以前</span><span>邊聽邊抄，會後再花一小時整理</span></div><div class="now"><span class="tag">現在</span><b>錄音交給 AI，產出紀錄、待辦和負責人</b></div></li>
+      </ul>
+    </article>
+    <article class="card">
+      <ul class="bf">
+        <li><div class="was"><span class="tag">以前</span><span>每週逐份看各單位週報，整理 1–2 小時</span></div><div class="now"><span class="tag">現在</span><b>AI 彙整成一頁，列出「需要我決定的事」</b></div></li>
+      </ul>
+    </article>
+    <article class="card">
+      <ul class="bf">
+        <li><div class="was"><span class="tag">以前</span><span>客戶常問的交期、規格，每次重打一遍</span></div><div class="now"><span class="tag">現在</span><b>AI 依公司資料先擬好回覆，人確認後送出</b></div></li>
+      </ul>
+    </article>
+    <div class="card note-card"><p>打卡與日報比對、請購依金額送簽，已在輔導過的公司上線。報告這類工作一律由 AI 打草稿、人把關。</p></div>
+  </div>
+</div></section>
+</div></details>
+<details class="fold" id="roi"><summary><span class="fold-k">算算看</span><span class="fold-t">這些例行工作，一年花掉你多少錢？</span></summary><div class="fold-body">
+<section class="band alt"><div class="wrap">
+  <div class="sec-head">
+    <p>改改下面的數字，看看貴公司的大概情況。</p>
+  </div>
+  <div class="roi-tabs" role="tablist" aria-label="試算方式">
+    <button type="button" role="tab" id="roiTabA" aria-controls="roiPanelA" aria-selected="true">全公司導入</button>
+    <button type="button" role="tab" id="roiTabB" aria-controls="roiPanelB" aria-selected="false" tabindex="-1">只算前 2 個流程</button>
+    <button type="button" role="tab" id="roiTabC" aria-controls="roiPanelC" aria-selected="false" tabindex="-1">逐項細算</button>
+  </div>
+  <div role="tabpanel" id="roiPanelA" aria-labelledby="roiTabA">
+    <p class="roi-scope">這是全面導入後的目標，不是 12 萬方案的範圍</p>
+    <div class="roi">
+      <div class="card roi-inputs">
+        <div class="fields f4">
+          <label>內勤人數<input id="roiAPeople" type="number" min="0" step="1" value="10"></label>
+          <label>可省比例（%）<input id="roiARatio" type="number" min="0" max="100" step="5" value="50"></label>
+          <label>平均月薪（元）<input id="roiASalary" type="number" min="0" step="1000" value="35000"></label>
+          <label>人事成本倍數<input id="roiALoad" type="number" min="1" step="0.05" value="1.2"></label>
+        </div>
+        <p class="small" style="margin:16px 0 0">計算方式：每人一年人事成本＝月薪 × 12 × 倍數；一年釋放的人力價值＝內勤人數 × 可省比例 × 每人一年人事成本；相當的全職人力＝人數 × 比例。</p>
+      </div>
+      <div>
+        <div class="roi-out" id="roiOutA" aria-live="polite"></div>
+        <p class="small" style="margin-top:16px">這是目標推算，不是承諾；實際數字以診斷時量測為準。</p>
+      </div>
+    </div>
+  </div>
+  <div role="tabpanel" id="roiPanelB" aria-labelledby="roiTabB" hidden>
+    <div class="roi">
+      <div class="card roi-inputs">
+        <table class="metrics">
+          <thead><tr><th>流程</th><th>做的人數</th><th>每人每週花幾小時</th></tr></thead>
+          <tbody>
+            <tr><td>報價</td><td data-label="做的人數"><input type="number" min="0" id="roiBP0" value="3" aria-label="報價：做的人數"></td><td data-label="每人每週花幾小時"><input type="number" min="0" step="0.5" id="roiBH0" value="8" aria-label="報價：每人每週花幾小時"></td></tr>
+            <tr><td>出貨文件</td><td data-label="做的人數"><input type="number" min="0" id="roiBP1" value="2" aria-label="出貨文件：做的人數"></td><td data-label="每人每週花幾小時"><input type="number" min="0" step="0.5" id="roiBH1" value="6" aria-label="出貨文件：每人每週花幾小時"></td></tr>
+          </tbody>
+        </table>
+        <div class="fields">
+          <label>可省比例（%）<input id="roiBRatio" type="number" min="0" max="100" step="5" value="60"></label>
+          <label>平均月薪（元）<input id="roiBSalary" type="number" min="0" step="1000" value="35000"></label>
+          <label>人事成本倍數<input id="roiBLoad" type="number" min="1" step="0.05" value="1.2"></label>
+        </div>
+      </div>
+      <div>
+        <div class="roi-out" id="roiOutB" aria-live="polite"></div>
+        <p class="small" style="margin-top:16px">預設是「以一家 50 人的公司為例」的兩個流程。每人每年以 2,080 工時計算，未扣 AI 帳號費。</p>
+      </div>
+    </div>
+  </div>
+  <div role="tabpanel" id="roiPanelC" aria-labelledby="roiTabC" hidden>
+    <div class="roi">
+    <div class="card roi-inputs">
+      <table class="metrics" id="roiTable">
+        <thead><tr><th>例行工作</th><th>做的人數</th><th>每人每週花幾小時</th><th>可自動化比例</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="fields">
+        <label>平均月薪（元）<input id="roiSalary" type="number" min="0" step="1000" value="35000"></label>
+        <label>含勞健保、退休金等的人事成本倍數<input id="roiLoad" type="number" min="1" step="0.05" value="1.2"></label>
+      </div>
+    </div>
+    <div>
+      <div class="roi-out" id="roiOut" aria-live="polite"></div>
+      <p class="small" style="margin-top:16px">粗略試算：時數與比例是預設估計值，每人每年以 2,080 工時計算。診斷時會一起算準。</p>
+    </div>
+  </div>
+  </div>
+</div></section>
+<script>
+(function(){
+  var rows=[
+    ["打卡、出勤與日報核對",2,4,80],
+    ["報價單製作",2,5,60],
+    ["收據與費用輸入",1,3,70],
+    ["會議紀錄與週報整理",3,2,60],
+    ["現場報告撰寫",4,4,50],
+    ["詢價、比價與請購簽呈",1,4,50],
+    ["出貨單、裝箱單等出貨文件",1,5,60],
+    ["供應商交期追蹤",1,3,50],
+    ["工作日報撰寫",8,1,60],
+    ["客戶跟進信與常見問題回覆",2,2,50],
+    ["帳款對帳與催款",1,2,50],
+    ["特休、加班與請假計算",1,2,80]
+  ];
+  var tb=document.querySelector("#roiTable tbody");
+  rows.forEach(function(r,i){
+    var tr=document.createElement("tr");
+    tr.innerHTML='<td></td><td data-label="做的人數"><input type="number" min="0" id="roiP'+i+'"></td><td data-label="每人每週花幾小時"><input type="number" min="0" step="0.5" id="roiH'+i+'"></td><td data-label="可自動化比例"><span class="pctcell"><input type="number" min="0" max="100" step="5" id="roiR'+i+'"> %</span></td>';
+    tr.firstChild.textContent=r[0];
+    tr.querySelectorAll("input").forEach(function(inp){inp.setAttribute("aria-label",r[0]+"："+inp.parentNode.closest("td").getAttribute("data-label"));});
+    tb.appendChild(tr);
+    document.getElementById("roiP"+i).value=r[1];
+    document.getElementById("roiH"+i).value=r[2];
+    document.getElementById("roiR"+i).value=r[3];
+  });
+  function num(id){var v=parseFloat(document.getElementById(id).value);return isFinite(v)&&v>0?v:0;}
+  function fmt(n){return Math.round(n).toLocaleString("zh-TW");}
+  var box=document.getElementById("roiOut"),cells=[];
+  for(var k=0;k<3;k++){var d=document.createElement("div");d.innerHTML='<div class="k"></div><div class="v"></div><div class="s"></div>';box.appendChild(d);cells.push(d);}
+  function calc(){
+    var hourly=num("roiSalary")*12*num("roiLoad")/2080;
+    var hours=0,saved=0;
+    rows.forEach(function(r,i){var h=num("roiP"+i)*num("roiH"+i)*52;hours+=h;saved+=h*Math.min(num("roiR"+i),100)/100;});
+    var out=[["這些工作一年花掉",fmt(hours*hourly)+" 元",fmt(hours)+" 小時人力"],
+             ["自動化後一年可省回",fmt(saved*hourly)+" 元","約 "+fmt(saved)+" 小時"],
+             ["員工多出的時間",(saved/2080).toFixed(1)+" 位全職人力","可以拿去做業務、品質、客戶開發"]];
+    out.forEach(function(o,i){var c=cells[i].children;c[0].textContent=o[0];c[1].textContent=o[1];c[2].textContent=o[2];});
+  }
+  document.getElementById("roiPanelC").addEventListener("input",calc);
+  calc();
+})();
+</script>
+<script>
+(function(){
+  function num(id){var v=parseFloat(document.getElementById(id).value);return isFinite(v)&&v>0?v:0;}
+  function fmt(n){return Math.round(n).toLocaleString("zh-TW");}
+  function cells(box,n){var a=[];for(var k=0;k<n;k++){var d=document.createElement("div");d.innerHTML='<div class="k"></div><div class="v"></div><div class="s"></div>';box.appendChild(d);a.push(d);}return a;}
+  function put(cs,rows){rows.forEach(function(o,i){var c=cs[i].children;c[0].textContent=o[0];c[1].textContent=o[1];c[2].textContent=o[2];});}
+  var ca=cells(document.getElementById("roiOutA"),2),cb=cells(document.getElementById("roiOutB"),3);
+  function calcA(){
+    var cost=num("roiASalary")*12*num("roiALoad"),fte=num("roiAPeople")*Math.min(num("roiARatio"),100)/100;
+    put(ca,[["一年釋放的人力價值",fmt(fte*cost)+" 元","每人一年人事成本約 "+fmt(cost)+" 元"],["相當於",fte.toFixed(1)+" 位全職人力","可以拿去做業務、品質、客戶開發"]]);
+  }
+  function calcB(){
+    var hourly=num("roiBSalary")*12*num("roiBLoad")/2080;
+    var wk=num("roiBP0")*num("roiBH0")+num("roiBP1")*num("roiBH1");
+    var saved=wk*52*Math.min(num("roiBRatio"),100)/100;
+    put(cb,[["一年省下的工時","約 "+fmt(saved)+" 小時","兩個流程每週約 "+fmt(wk)+" 小時"],["換算人力價值",fmt(saved*hourly)+" 元","未扣 AI 帳號費"],["員工多出的時間",(saved/2080).toFixed(1)+" 位全職人力","可以多回報價、多跟客戶"]]);
+  }
+  document.getElementById("roiPanelA").addEventListener("input",calcA);
+  document.getElementById("roiPanelB").addEventListener("input",calcB);
+  calcA();calcB();
+  var tabs=[].slice.call(document.querySelectorAll('#roi [role="tab"]'));
+  function sel(t,focus){tabs.forEach(function(x){var on=x===t;x.setAttribute("aria-selected",on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute("aria-controls")).hidden=!on;});if(focus)t.focus();}
+  tabs.forEach(function(t,i){
+    t.addEventListener("click",function(){sel(t);});
+    t.addEventListener("keydown",function(e){var j=null;if(e.key==="ArrowRight")j=(i+1)%tabs.length;else if(e.key==="ArrowLeft")j=(i+tabs.length-1)%tabs.length;else if(e.key==="Home")j=0;else if(e.key==="End")j=tabs.length-1;if(j!==null){e.preventDefault();sel(tabs[j],true);}});
+  });
+})();
+</script>
+</div></details>
+<details class="fold" id="compare"><summary><span class="fold-k">比較表</span><span class="fold-t">跟其他做法比，差在哪？</span></summary><div class="fold-body">
+<section class="band"><div class="wrap">
+  <div class="sec-head">
+  </div>
+  <div class="ctable-wrap"><table class="ctable compare">
+    <thead><tr><th scope="col"><span class="sr">比較項目</span></th><th scope="col">老闆自己用 ChatGPT</th><th scope="col">買現成軟體</th><th scope="col">找人代做系統</th><th scope="col" class="us">零九顧問</th></tr></thead>
+    <tbody><tr><th scope="row">誰來做</th><td data-label="老闆自己用 ChatGPT">每個人自己摸索</td><td data-label="買現成軟體">廠商的固定功能</td><td data-label="找人代做系統">外包工程師</td><td data-label="零九顧問" class="us">教你的同事自己做</td></tr><tr><th scope="row">貼合公司流程</th><td data-label="老闆自己用 ChatGPT">看個人</td><td data-label="買現成軟體">要配合軟體改流程</td><td data-label="找人代做系統">高，但要寫很清楚的需求</td><td data-label="零九顧問" class="us">高，由最懂工作的人自己做</td></tr><tr><th scope="row">費用</th><td data-label="老闆自己用 ChatGPT">帳號費</td><td data-label="買現成軟體">授權費加導入費</td><td data-label="找人代做系統">開發費較高，改一次付一次</td><td data-label="零九顧問" class="us">固定導入費，之後可選月費</td></tr><tr><th scope="row">之後誰維護</th><td data-label="老闆自己用 ChatGPT">沒人負責</td><td data-label="買現成軟體">廠商</td><td data-label="找人代做系統">再找外包</td><td data-label="零九顧問" class="us">公司自己的同事</td></tr><tr><th scope="row">常見問題</th><td data-label="老闆自己用 ChatGPT">用不起來、沒有規則</td><td data-label="買現成軟體">不合用、被綁約</td><td data-label="找人代做系統">需求一變就要再花錢</td><td data-label="零九顧問" class="us">需要公司有人配合</td></tr></tbody>
+  </table></div>
+</div></section>
+</div></details>
+<details class="fold" id="method"><summary><span class="fold-k">方法</span><span class="fold-t">六個步驟，從自評到公司自己會做</span></summary><div class="fold-body">
+<section class="band alt"><div class="wrap">
+  <div class="sec-head">
+  </div>
+  <ol class="flow">
+    <li><div class="node">01</div><details open><summary><span class="when">第 0 週</span><h3>先確認適不適合</h3></summary><p>15 分鐘線上自評，加上 30 分鐘免費遠端診斷。</p></details></li>
+    <li><div class="node">02</div><details open><summary><span class="when">啟動前</span><h3>找出最值得先改的 2–3 個流程</h3></summary><p>問卷加短訪談，挑出最花工時的流程，量好現在的工時。</p></details></li>
+    <li><div class="node">03</div><details open><summary><span class="when">現場第 1 天</span><h3>老闆定目標與規矩</h3></summary><p>訂好目標、誰負責、哪些事不交給 AI。</p></details></li>
+    <li><div class="node">04</div><details open><summary><span class="when">現場第 2 天</span><h3>環境裝好、種子人員帶起來</h3></summary><p>帳號、權限、備份與 AI 工具就位，種子人員全程跟做。</p></details></li>
+    <li><div class="node">05</div><details open><summary><span class="when">現場第 3 天</span><h3>全員動手做</h3></summary><p>依職務分小班，每人當天完成第一個練習工具。</p></details></li>
+    <li><div class="node">06</div><details open><summary><span class="when">陪跑期</span><h3>遠端陪跑，每月看成效</h3></summary><p>每週例會、線上答疑，每月看成效。</p></details></li>
+  </ol>
+  <p class="principle">先改流程、再挑工具；先量基準線、再談成效。</p>
+</div></section>
+<script>
+if(matchMedia("(max-width:1000px)").matches){document.querySelectorAll(".flow details").forEach(function(d,i){if(i>0)d.removeAttribute("open");});}
+</script>
+<section class="band stack"><div class="wrap">
+  <div class="split">
+    <div>
+      <p class="kicker">交付方式</p>
+      <h2><span class="ln">我們幫你架好主幹，</span><span class="ln">你的員工長出枝葉</span></h2>
+      <p>示範企業約 1–2 週、標準方案約 2–3 週打好基礎（見<a href="#pricing">方案與價格</a>），之後員工依自己最懂的工作長出功能，我們遠端陪跑。</p>
+      <p class="plain"><b>主幹</b>＝我們幫你設好的帳號、權限、AI 工具和前 2–3 個流程；<b>枝葉</b>＝你的同事之後自己加的功能，例如新的報表或範本。</p>
+      <p class="muted">全台都可到現場；每位顧問同一時間只啟動一家公司。</p>
+    </div>
+    <svg class="tree" viewBox="0 0 560 440" role="img" aria-label="示意圖：一棵樹，主幹是我們架好的基礎，枝葉是員工自己長出的功能">
+      <path d="M40 392h480" style="stroke:var(--line)" stroke-width="2"/>
+      <g fill="none" style="stroke:var(--deep)" stroke-width="14" stroke-linecap="round">
+        <path d="M280 250 C 250 200, 200 175, 150 150"/>
+        <path d="M280 230 C 310 180, 360 160, 410 140"/>
+        <path d="M280 200 C 275 150, 280 110, 282 70"/>
+        <path d="M280 270 C 330 250, 380 250, 440 240"/>
+        <path d="M280 280 C 230 265, 180 262, 120 255"/>
+      </g>
+      <rect x="252" y="190" width="56" height="202" rx="14" style="fill:var(--deep)"/>
+      <g style="font:700 13px var(--sans)">
+        <rect x="262" y="226" width="36" height="150" rx="8" style="fill:var(--accent)" opacity=".35"/>
+        <text x="280" y="248" text-anchor="middle" style="fill:#fff;writing-mode:vertical-rl;font-size:13px">帳號權限・備份</text>
+      </g>
+      <g style="font:700 13px var(--sans)">
+        <rect x="88" y="124" width="120" height="40" rx="20" style="fill:var(--signal)"/><text x="148" y="149" text-anchor="middle" style="fill:var(--signal-ink)">報價草稿</text>
+        <rect x="356" y="112" width="120" height="40" rx="20" style="fill:var(--signal)"/><text x="416" y="137" text-anchor="middle" style="fill:var(--signal-ink)">出貨文件</text>
+        <rect x="222" y="40" width="120" height="40" rx="20" style="fill:var(--signal)"/><text x="282" y="65" text-anchor="middle" style="fill:var(--signal-ink)">會議紀錄</text>
+        <rect x="392" y="222" width="120" height="40" rx="20" style="fill:var(--signal)"/><text x="452" y="247" text-anchor="middle" style="fill:var(--signal-ink)">催款訊息</text>
+        <rect x="48" y="236" width="120" height="40" rx="20" style="fill:var(--signal)"/><text x="108" y="261" text-anchor="middle" style="fill:var(--signal-ink)">日報整理</text>
+      </g>
+      <g style="font:700 14px var(--sans)">
+        <path d="M322 320h30" style="stroke:var(--accent)" stroke-width="2"/><circle cx="322" cy="320" r="4" style="fill:var(--accent)"/>
+        <text x="360" y="325" style="fill:var(--ink)">我們架好的基礎</text>
+        <text x="360" y="346" style="fill:var(--muted);font-weight:500;font-size:12px">帳號、權限、備份、</text>
+        <text x="360" y="364" style="fill:var(--muted);font-weight:500;font-size:12px">AI 工具、使用規則</text>
+        <text x="40" y="24" style="fill:var(--ink)">員工自己長出的功能</text>
+        <text x="40" y="420" style="fill:var(--muted);font-weight:500;font-size:12px">枝葉上的工作只是舉例，每家公司長出來的都不一樣</text>
+      </g>
+    </svg>
+  </div>
+  <p style="margin-top:28px;max-width:none"><b>與在地系統商分工合作：</b>硬體的報價、採購與保固由系統商負責，我們專注在流程與培訓，不賣硬體、不抽佣金。</p>
+</div></section>
+<section class="band stack alt"><div class="wrap">
+  <div class="sec-head">
+    <p class="kicker">成效</p>
+    <h2>第 1 天量基準線，每個月用同一把尺比較</h2>
+  </div>
+  <div class="perf">
+    <div class="tbl"><table class="ptable">
+      <thead><tr><th>類別</th><th>看什麼</th></tr></thead>
+      <tbody>
+        <tr><td>採用</td><td>每週使用 AI 的員工比例、自己做的工具數</td></tr>
+        <tr><td>成效</td><td>目標流程的工時、出錯或重工次數</td></tr>
+        <tr><td>成長</td><td>多接的訂單、新客戶、每人產值</td></tr>
+        <tr><td>自主度</td><td>種子人員自己解決的問題比例</td></tr>
+        <tr><td>健康度</td><td>備份、權限異動、資安事件</td></tr>
+      </tbody>
+    </table></div>
+    <figure style="margin:0">
+      <div class="mock" role="img" aria-label="示意畫面：成效月報儀表板，內容與數字皆為虛構">
+        <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="ttl">成效月報・第 3 個月</span><span class="demo-tag">示意畫面</span></div>
+        <div class="mock-body">
+          <div class="kpis">
+            <div class="kpi"><div class="l">採用：每週使用 AI 的員工</div><div class="v">—</div><div class="d">對照第 1 天基準線</div></div>
+            <div class="kpi"><div class="l">成效：目標流程工時</div><div class="v">—</div><div class="d">對照第 1 天基準線</div></div>
+            <div class="kpi"><div class="l">自主度：種子人員自己解決</div><div class="v">—</div><div class="d">本月問題數</div></div>
+            <div class="kpi"><div class="l">健康度：資安事件</div><div class="v">—</div><div class="d">備份、權限異動已檢查</div></div>
+          </div>
+          <svg class="chart" viewBox="0 0 400 150" aria-hidden="true">
+            <text x="0" y="14" class="lbl">目標流程每週工時（示意）</text>
+            <rect class="bar base" x="20" y="40" width="58" height="80" rx="4"/>
+            <rect class="bar" x="115" y="54" width="58" height="66" rx="4" opacity=".55"/>
+            <rect class="bar" x="210" y="66" width="58" height="54" rx="4" opacity=".75"/>
+            <rect class="bar" x="305" y="76" width="58" height="44" rx="4"/>
+            <text x="49" y="140" text-anchor="middle" class="lbl">基準線</text>
+            <text x="144" y="140" text-anchor="middle" class="lbl">第 1 月</text>
+            <text x="239" y="140" text-anchor="middle" class="lbl">第 2 月</text>
+            <text x="334" y="140" text-anchor="middle" class="lbl">第 3 月</text>
+          </svg>
+        </div>
+      </div>
+      <figcaption class="caption">示意畫面：說明成效月報的樣子，數字以「—」代替，不代表任何客戶的實際成效。</figcaption>
+    </figure>
+  </div>
+</div></section>
+<section class="band stack alt"><div class="wrap">
+  <div class="sec-head">
+    <p class="kicker">陪跑期之後</p>
+    <h2>陪跑結束以後，公司自己接得住</h2>
+    
+  </div>
+  <div class="grid2 after12">
+    <div class="card"><h3>之後怎麼維護</h3><p>種子人員照說明處理日常小修改；處理不了再找我們。</p></div>
+    <div class="card"><h3>種子人員離職怎麼交接</h3><p>一開始就培養 1–2 位，做法都寫成文件，換人照文件交接。</p></div>
+    <div class="card"><h3>做一個月覺得沒用，能不能停</h3><p>可以。每月回顧一起看成效，沒效果就調整或暫停。</p></div>
+    <div class="card"><h3>工具和資料歸誰</h3><p>都屬於貴公司，放在公司自己的帳號或伺服器裡。</p></div>
+  </div>
+</div></section>
+<section class="band stack slim"><div class="wrap">
+  <p class="kicker">設備</p>
+  <h2>先用現有電腦，從報價或出貨文件開始</h2>
+  <p>多數公司用現有電腦加雲端帳號就能開始。</p>
+  <details class="more">
+    <summary>完全沒經驗也可以：需要時再幫你建立公司自己的伺服器</summary>
+    <div class="more-body">
+      <div class="split">
+        <div><p>大部分公司不需要。真的需要放在公司內部的資料，會先請合作系統商評估；常見做法是用現有的 NAS 或一台小型主機，實際費用以系統商報價為準。</p></div>
+        <svg class="server-art" viewBox="0 0 520 300" role="img" aria-label="示意圖：公司內部伺服器存放共用檔案、帳號權限、自動備份與內部 AI">
+      <rect x="0.5" y="0.5" width="519" height="299" rx="18" style="fill:var(--paper);stroke:var(--line)"/>
+      <path d="M40 270h440" style="stroke:var(--line)" stroke-width="2" stroke-dasharray="6 6"/>
+      <text x="40" y="44" style="fill:var(--muted);font:600 13px var(--sans)">公司內部</text>
+      <g>
+        <rect x="190" y="70" width="140" height="190" rx="12" style="fill:var(--deep)"/>
+        <rect x="206" y="90" width="108" height="34" rx="6" style="fill:var(--accent)" opacity=".9"/>
+        <rect x="206" y="134" width="108" height="34" rx="6" style="fill:var(--accent)" opacity=".7"/>
+        <rect x="206" y="178" width="108" height="34" rx="6" style="fill:var(--accent)" opacity=".5"/>
+        <circle cx="300" cy="107" r="4" style="fill:var(--signal)"/><circle cx="300" cy="151" r="4" style="fill:var(--signal)"/><circle cx="300" cy="195" r="4" style="fill:var(--signal)"/>
+        <text x="260" y="242" text-anchor="middle" style="fill:#fff;font:700 14px var(--sans)">內部伺服器</text>
+      </g>
+      <g style="font:600 13px var(--sans)">
+        <rect x="40" y="82" width="120" height="44" rx="10" style="fill:var(--accent-soft)"/><text x="100" y="109" text-anchor="middle" style="fill:var(--ink)">共用檔案</text>
+        <rect x="40" y="150" width="120" height="44" rx="10" style="fill:var(--accent-soft)"/><text x="100" y="177" text-anchor="middle" style="fill:var(--ink)">帳號權限</text>
+        <rect x="360" y="82" width="120" height="44" rx="10" style="fill:var(--accent-soft)"/><text x="420" y="109" text-anchor="middle" style="fill:var(--ink)">自動備份</text>
+        <rect x="360" y="150" width="120" height="44" rx="10" style="fill:var(--signal)"/><text x="420" y="177" text-anchor="middle" style="fill:var(--signal-ink)">內部可用的 AI</text>
+      </g>
+      <g style="stroke:var(--accent)" stroke-width="2" fill="none"><path d="M160 104h30M160 172h30M330 104h30M330 172h30"/></g>
+    </svg>
+      </div>
+    </div>
+  </details>
+</div></section>
+</div></details>
+<details class="fold" id="cases"><summary><span class="fold-k">案例</span><span class="fold-t">他們把最花時間的例行工作交給了 AI</span></summary><div class="fold-body">
+<section class="band"><div class="wrap">
+  <div class="sec-head">
+  </div>
+  <div class="grid2">
+    <div class="card case">
+      <div class="case-tag">案例一・據點遍布全台的營運服務公司</div>
+      <h3>老闆帶頭，員工一起學會自己改 AI 工具</h3>
+      <p><b>導入前：</b>數百個據點、數十位外勤，靠 Excel 和電話調度，報表要專人整理。</p>
+      <p><b>做了什麼：</b>老闆帶頭，挑選員工（連文員）一起學，幾個月內就能自己修改日常用的 AI 工具；收據拍照由 AI 讀出金額、比對申請；開會用的報表自動產出。</p>
+      <p style="margin-top:14px"><b>結果：</b>大部分辦公室例行工作與資訊維運改成自動化；管理者只處理例外。</p>
+      <div class="case-ext">
+        <p class="case-ext-h">之後另案擴充（不在示範方案內）</p>
+        <ul class="clean">
+          <li>系統每天自動排出派工建議和路線，管理者只要選人</li>
+          <li>排班、薪資與每日營運損益結算</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card case">
+      <div class="case-tag">案例二・約數十人的技術服務公司</div>
+      <h3>各部門約 80 個 AI 使用情境，同事自己用</h3>
+      <p><b>導入前：</b>靠打卡機和紙本，每月人工核對出勤與工資，簽核都跑紙本。</p>
+      <p><b>做了什麼：</b>替各部門整理約 80 個明天就能用的 AI 使用情境和範例指令，教同事自己用。</p>
+      <div class="case-ext">
+        <p class="case-ext-h">之後另案擴充（不在示範方案內）</p>
+        <ul class="clean">
+          <li>手機打卡，出勤直接接到工資計算</li>
+          <li>自動比對「有打卡卻沒寫日報」這類異常</li>
+          <li>請假、加班線上申請，假別額度依法規自動計算</li>
+          <li>請購與簽核線上化</li>
+        </ul>
+        <p>擴充後，出勤、日報和工資核對改由系統處理，行政人員只做最後確認；簽核不用再追紙本。</p>
+      </div>
+    </div>
+  </div>
+  <p class="small" style="margin-top:24px">以上為真實輔導案例。為保護客戶，產業類別、規模與部分細節已調整，不公開公司名稱。真實案例裡的派工、打卡與薪資系統，是在這些公司打好基礎後另外擴充的客製系統，不包含在示範方案內；需要的話會另外報價。</p>
+</div></section>
+</div></details>
+<details class="fold" id="demo"><summary><span class="fold-k">示範情境</span><span class="fold-t">換成你的公司，可能會長這樣</span></summary><div class="fold-body">
+<section class="band alt"><div class="wrap">
+  <div class="sec-head">
+    <p>以下是說明用的示範情境，不是真實客戶；實際效果看各公司的流程和資料。</p>
+  </div>
+  <div class="grid3">
+    <div class="card demo">
+      <div class="case-tag">示範・約 80 人的扣件廠</div>
+      <h3>報價不用再翻舊單、等老師傅</h3>
+      <p><b>現在：</b>翻舊訂單、查材料價、問老師傅工時，一張報價常要半天。</p>
+      <p><b>可以怎麼做：</b>整理好歷史報價、材料價和工時規則，讓 AI 先產出報價草稿。</p>
+      <p><b>預期：</b>報價明顯加快，業務有更多時間談生意。</p>
+    </div>
+    <div class="card demo">
+      <div class="case-tag">示範・約 50 人的塑膠射出廠</div>
+      <h3>出貨文件和品保報告自動產出</h3>
+      <p><b>現在：</b>出貨單、裝箱單和檢驗報告都手動做，格式依客戶不同，最容易出錯。</p>
+      <p><b>可以怎麼做：</b>訂單和檢驗資料一進系統，AI 依客戶格式產出文件，人只看異常。</p>
+      <p><b>預期：</b>錯誤和重工減少，品保把時間放在真正的品質問題上。</p>
+    </div>
+    <div class="card demo">
+      <div class="case-tag">示範・約 40 人的貿易商</div>
+      <h3>詢價與報價回覆不用再一封一封寫</h3>
+      <p><b>現在：</b>客戶用 Email 和 LINE 詢價，業務要查價目表、算匯率和運費，再一封一封回，旺季常常拖到隔天。</p>
+      <p><b>可以怎麼做：</b>AI 讀詢價內容、套用價目與運費規則，產出報價回覆草稿，業務確認後送出。</p>
+      <p><b>預期：</b>回覆更快，業務把時間放在跟進大客戶。</p>
+    </div>
+  </div>
+</div></section>
+</div></details>
+<details class="fold" id="example"><summary><span class="fold-k">12 萬做到什麼</span><span class="fold-t">以一家 50 人的公司為例：12 萬買到什麼？</span></summary><div class="fold-body">
+<section class="band alt"><div class="wrap">
+  <div class="claim-full">
+    <h3>投入 12 萬，前 2 個流程約半年回本</h3>
+    <p>一年約省回 21–23 萬（以 50 人公司示範試算）</p>
+    <h4>全面導入後，目標一年釋放 100 萬以上的人力價值</h4>
+    <p>員工自己長出更多工具、加上後續擴充後才達得到；約等於 2 位全職行政一年的時間（每人一年人事成本約 50 萬，以月薪 3.5 萬乘以 1.2 倍計）。</p>
+    <p class="small">推算方式：內勤人數 × 省下的比例 × 每人一年人事成本。例如 8 位內勤省一半，約 200 萬；12 位內勤省七成，約 420 萬。實際數字以診斷時量測為準。</p>
+  </div>
+  <div class="sec-head">
+    <p>示範企業方案包含 2 個流程。假設挑「報價」和「出貨文件」：</p>
+  </div>
+  <div class="ex">
+    <div class="ctable-wrap"><table class="ctable ex-table">
+      <thead><tr><th scope="col"><span class="sr">流程</span></th><th scope="col">導入前</th><th scope="col" class="us">導入後</th></tr></thead>
+      <tbody><tr><th scope="row">報價</th><td data-label="導入前">3 位業助，每人每週約 8 小時翻舊單、算價格</td><td data-label="導入後" class="us">AI 依需求和價目表產出草稿，業助確認修改</td></tr><tr><th scope="row">出貨文件</th><td data-label="導入前">2 位同事，每人每週約 6 小時做出貨單、裝箱單</td><td data-label="導入後" class="us">訂單資料進來，AI 依客戶格式產出，人只看異常</td></tr><tr><th scope="row">接現有資料</th><td data-label="導入前">—</td><td data-label="導入後" class="us">直接讀現有的 Excel 或進銷存匯出檔，不用換系統</td></tr></tbody>
+    </table></div>
+    <div class="card ex-calc">
+      <h3>業助每週多出約 20 小時，一年約省回 21–23 萬</h3>
+      <p class="small">示範試算，實際以診斷時量到的數字為準。</p>
+      <ul class="clean">
+        <li>兩個流程每週約 36 小時，假設省下六成，約 21.6 小時／週，一年約 1,120 小時。</li>
+        <li>以月薪 3.5 萬、人事成本 1.2 倍計，一年約省回 27 萬元。</li>
+        <li>AI 帳號只買給實際使用的約 5 人，每人每月約 700–1,000 元，一年約 4–6 萬元。</li>
+        <li>扣掉 AI 帳號費，第一年約省回 21–23 萬元，導入費 12 萬約 6–7 個月回本；之後員工自己長出的其他功能還不算在內。</li>
+        <li>保守一點算：前 1 個月是學習期，同事會多花一些時間，省下的時間從第 2 個月才開始累積，第一年約省回 19–21 萬。</li>
+        <li>省下的時間不是少發的薪水，而是多出來的人力：例如業助每週多出約 20 小時，可以多回幾張報價、多跟幾個客戶。</li>
+      </ul>
+      <p class="ex-link"><a href="#roi">用你自己的數字算算看 →</a></p>
+    </div>
+  </div>
+  <div class="scope" id="scope">
+    <h3 class="scope-h">12 萬做到什麼、不做什麼</h3>
+    <div class="grid2">
+      <div class="card">
+        <div class="dept-head"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span><h3>做到</h3></div>
+        <ul class="clean">
+          <li>2 個流程上線（例如報價草稿、出貨文件）</li>
+          <li>帳號、權限與 AI 工具設定</li>
+          <li>1–2 位同事學會自己改</li>
+          <li>10 週陪跑</li>
+          <li>結案報告</li>
+          <li>種子人員與參與同事的 AI 工作能力紀錄</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="dept-head"><span class="icon" style="background:var(--bg);color:var(--muted)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg></span><h3>不做</h3></div>
+        <ul class="clean">
+          <li>換掉或改寫 ERP、進銷存</li>
+          <li>打卡、薪資、派工這類需要寫程式的系統</li>
+          <li>硬體</li>
+          <li>AI 帳號月費</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small scope-note">真實案例裡的派工、打卡與薪資系統，是在這些公司打好基礎後另外擴充的客製系統，不包含在示範方案內；需要的話會另外報價。</p>
+  </div>
+</div></section>
+</div></details>
+<details class="fold" id="pilot"><summary><span class="fold-k">方案與價格</span><span class="fold-t">首批示範企業招募，限 3 家</span><span class="fold-x">首批示範企業 12 萬（限 3 家）・標準方案 30 萬</span></summary><div class="fold-body">
+<section class="band"><div class="wrap">
+  <div class="sec-head">
+    <p>示範企業以優惠價取得完整的啟動加陪跑期，條件是結案後同意以匿名方式分享成效數據。</p>
+    <p><a href="#pricing">看方案與價格</a></p>
+  </div>
+  <div id="pricing" class="pricing">
+    <h3 class="pricing-h">方案與價格（未稅，硬體另由系統商報價）</h3>
+    <table class="plan-table">
+      <thead><tr><th scope="col">項目</th><th scope="col" class="pilot-col">首批示範企業（限 3 家）</th><th scope="col">標準方案</th></tr></thead>
+      <tbody><tr><th scope="row">價格</th><td>12 萬（第 4 家起 18 萬）</td><td>30 萬</td></tr><tr><th scope="row">適合</th><td>約 20–60 人</td><td>約 61–150 人</td></tr><tr><th scope="row">打好主幹</th><td>1–2 週，現場 3 天，第 4–6 週回訪 1 天</td><td>2–3 週，現場 4 天加回訪 1 天</td></tr><tr><th scope="row">做到上線的流程</th><td>2 個</td><td>3 個</td></tr><tr><th scope="row">種子人員</th><td>1–2 人</td><td>2–3 人</td></tr><tr><th scope="row">全員工作坊</th><td>1 場</td><td>2 場</td></tr><tr><th scope="row">遠端陪跑</th><td>10 週，從流程上線日起算</td><td>12 週</td></tr><tr><th scope="row">成效報告</th><td>基準線加結案報告</td><td>基準線、月報加結案報告</td></tr></tbody>
+    </table>
+    <div class="plan-cards"><div class="plan-card pilot-card"><h3>首批示範企業（限 3 家）</h3><dl><div class="pc-row"><dt>價格</dt><dd>12 萬（第 4 家起 18 萬）</dd></div><div class="pc-row"><dt>適合</dt><dd>約 20–60 人</dd></div><div class="pc-row"><dt>打好主幹</dt><dd>1–2 週，現場 3 天，第 4–6 週回訪 1 天</dd></div><div class="pc-row"><dt>做到上線的流程</dt><dd>2 個</dd></div><div class="pc-row"><dt>種子人員</dt><dd>1–2 人</dd></div><div class="pc-row"><dt>全員工作坊</dt><dd>1 場</dd></div><div class="pc-row"><dt>遠端陪跑</dt><dd>10 週，從流程上線日起算</dd></div><div class="pc-row"><dt>成效報告</dt><dd>基準線加結案報告</dd></div></dl></div><div class="plan-card "><h3>標準方案</h3><dl><div class="pc-row"><dt>價格</dt><dd>30 萬</dd></div><div class="pc-row"><dt>適合</dt><dd>約 61–150 人</dd></div><div class="pc-row"><dt>打好主幹</dt><dd>2–3 週，現場 4 天加回訪 1 天</dd></div><div class="pc-row"><dt>做到上線的流程</dt><dd>3 個</dd></div><div class="pc-row"><dt>種子人員</dt><dd>2–3 人</dd></div><div class="pc-row"><dt>全員工作坊</dt><dd>2 場</dd></div><div class="pc-row"><dt>遠端陪跑</dt><dd>12 週</dd></div><div class="pc-row"><dt>成效報告</dt><dd>基準線、月報加結案報告</dd></div></dl></div></div>
+  </div>
+</div></section>
+<section class="band stack"><div class="wrap">
+  <h3>適合誰：為 20 到 150 人的中小企業設計</h3>
+  <div class="sec-head">
+    <p>製造業、服務業、貿易、工程技術服務都適用。</p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="dept-head"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span><h3>適合</h3></div>
+      <ul class="clean">
+        <li>有大量文書與例行工作的公司：報價、訂單、出貨、採購、請款、排班、報表、客服回覆</li>
+        <li>老闆或接班人願意親自帶頭</li>
+        <li>有一位資深行政或業務助理可以當種子人員</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="dept-head"><span class="icon" style="background:var(--alt);color:var(--muted)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg></span><h3>暫時不適合</h3></div>
+      <ul class="clean">
+        <li>只想買套系統裝好，不打算改變做法</li>
+        <li>老闆無法參加啟動會和每月回顧</li>
+        <li>找不到每週能撥出約 4 小時的種子人員</li>
+        <li>資料幾乎全在紙本</li>
+      </ul>
+    </div>
+  </div>
+  <div class="commit">
+    <h3>需要投入的時間</h3>
+    <div class="commit-grid">
+      <div><span class="who">老闆</span><b>啟動會約 2 小時</b></div>
+      <div><span class="who">老闆</span><b>每月回顧 30–45 分鐘</b></div>
+      <div><span class="who">種子人員</span><b>每週約 4 小時</b><span class="muted">現有工作要先調整好</span></div>
+    </div>
+  </div>
+</div></section>
+</div></details>
+<details class="fold" id="terms"><summary><span class="fold-k">合約重點</span><span class="fold-t">付款跟著進度、驗收、範圍與歸屬</span></summary><div class="fold-body">
+<section class="band"><div class="wrap">
+    <div class="terms" style="margin-top:0;padding-top:0;border-top:0">
+      
+      <dl><div><dt>付款跟著進度</dt><dd>簽約 40%、主幹完成 40%、驗收 20%。每一期對應一個完成節點，沒到節點就不收下一期；在任何一個節點後決定不繼續，就不再收後面的款項。</dd></div><div><dt>驗收看兩件事</dt><dd>約定的流程上線後連續 2 週有人在用；結案報告列出這些流程的工時和導入前的基準線比較。</dd></div><div><dt>範圍</dt><dd>2 個（示範企業）或 3 個（標準方案）流程；範圍外的需求先書面報價，你同意才開工。</dd></div><div><dt>歸屬</dt><dd>做出來的工具、範本、資料都歸公司；我們保留匿名案例和方法的使用權（示範企業另外同意匿名分享成效）。</dd></div><div><dt>不包含</dt><dd>硬體、AI 帳號月費、需要寫程式的客製系統。</dd></div><div><dt>陪跑結束後</dt><dd>可以選簡單月費，或依省下的成本按比例計費（要先雙方簽認基準線）。</dd></div><div><dt>公司要配合</dt><dd>一位有決策權的窗口；種子人員每週至少 4 小時；資料與帳號在 5 個工作天內備齊；老闆出席開場與回顧。</dd></div><div><dt>診斷</dt><dd>免費。</dd></div></dl>
+      <div class="summary-cta"><a class="btn ghost" href="/summary/">下載一頁摘要（給老闆或財務）</a></div>
+    </div>
+</div></section>
+</div></details>
+<details class="fold" id="security"><summary><span class="fold-k">資料安全</span><span class="fold-t">公司的資料，留在公司手上</span></summary><div class="fold-body">
+<section class="band alt"><div class="wrap">
+  <div class="sec-head">
+  </div>
+  <div class="grid2 sec-grid">
+    <div class="card"><h3>資料放在公司自己的帳號</h3><p>AI 帳號、雲端空間都由公司申請、公司付款，管理員權限在公司手上，不放在顧問的帳號裡。</p></div>
+    <div class="card"><h3>使用企業版或商務版 AI 方案</h3><p>這類方案預設不會用你的資料訓練模型（以各平台當時的條款為準）。</p></div>
+    <div class="card"><h3>第 1 天就把資料分級</h3><p>客戶圖面、底價、成本這類機密資料，訂好哪些能用 AI、哪些只能留在公司內部。</p></div>
+    <div class="card"><h3>簽保密協議，結案就收回權限</h3><p>雙方簽保密協議；結案或解約時，顧問端的存取權限全部移除。</p></div>
+  </div>
+</div></section>
+</div></details>
+<details class="fold" id="faq"><summary><span class="fold-k">常見問題</span><span class="fold-t">老闆最常問的幾件事</span></summary><div class="fold-body">
+<section class="band"><div class="wrap">
+  <div class="sec-head">
+  </div>
+  <div class="faq">
+    <details><summary>同事不會寫程式也做得到嗎？</summary><p>做得到。大部分工具是用 AI 對話、表單和 Excel 組出來的，不需要寫程式；需要寫程式的客製系統不在方案內，另外報價。</p></details>
+    <details><summary>員工不太會用電腦，也能做嗎？</summary><p>可以。工作坊從每個人手上最煩的一件事開始，照著步驟做；種子人員在公司裡隨時幫忙。</p></details>
+    <details><summary>這是要裁員嗎？</summary><p>不是。現有員工是公司留下來的好人才，難的是請不到更多。AI 接手重複的電腦工作，是讓同樣的人做出更多生意。<a href="#principle">詳見上方『我們的原則』。</a></p></details>
+    <details><summary>老員工會不會反彈？</summary><p>我們第 1 天就跟全員說清楚：AI 是幫大家把重複的事做掉，不是來取代人。老師傅的經驗反而最重要，我們會請他們一起決定哪些事交給 AI，也會把他們的做法整理成公司的知識。</p></details>
+    <details><summary>如果導入不划算呢？</summary><p>我們會先幫你算（<a href="#roi">試算</a>是起點）省下的成本夠不夠；不夠就直接建議你不要導入。免費診斷就是為了先回答這個問題。</p></details>
+    <details><summary>多久看得到效果？</summary><p>現場第 3 天每位員工會完成第一個練習工具。目標流程的工時變化，從第 1 個月的成效月報開始看。</p></details>
+    <details><summary>為什麼是 12 萬、為什麼限 3 家？</summary><p>我們要先累積幾家可以公開數字的成效紀錄，所以前 3 家用接近成本的價格，換取結案後匿名分享成效。第 4 家起是 18 萬。</p></details>
+  </div>
+</div></section>
+</div></details>
+<details class="fold" id="experience"><summary><span class="fold-k">關於我們</span><span class="fold-t">請不到人，就讓現有的好員工靠 AI 做更有價值的事</span></summary><div class="fold-body">
+<section class="band deep"><div class="wrap">
+  <p class="quote" style="margin-top:0">「我們曾陪中小企業由老闆帶頭、連文員一起學，幾個月內員工就能自己改 AI 工具。最難的是從 0 到 1，接下來的 1 到 100，靠每個人的努力。」</p>
+  <div class="about" id="about">
+    <h3>關於我們</h3>
+    <div class="about-row">
+      <div class="avatar" role="img" aria-label="黃泰翔（縮寫頭像）">泰</div>
+      <div>
+        <p>負責顧問：黃泰翔。預約後由黃泰翔本人用電話或視訊聯絡你，不是業務專員。</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+</div></details>
+  </div>
+</div></section>
+
+<section class="band alt" id="start"><div class="wrap">
+  <div class="start">
+    <div>
+      <p class="kicker">從這裡開始</p>
+      <h2>兩步就知道適不適合</h2>
+      <ol>
+        <li>填 15 分鐘的 AI 準備度自評，馬上看到結果與建議。</li>
+        <li>請顧問打電話給你：免費 30 分鐘遠端診斷，一起看結果，決定先從哪個流程開始。</li>
+      </ol>
+      <div class="cta-row">
+        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfOkpTMlLoB_otpgyqpfiGL3hQba6UQB15jVnhM-VMm3sH5qQ/viewform" target="_blank" rel="noopener">請顧問打電話給我</a>
+        <a class="textlink" href="/check/">開始自評</a>
+      </div>
+    </div>
+    <div class="side">
+      <p>已經知道想談什麼？也可以直接<a href="https://docs.google.com/forms/d/e/1FAIpQLSfOkpTMlLoB_otpgyqpfiGL3hQba6UQB15jVnhM-VMm3sH5qQ/viewform" target="_blank" rel="noopener">請顧問打電話給我</a>，免費，30 分鐘，不推銷。</p>
+      <p class="small">診斷免費；硬體與裝機由在地系統商另外報價。</p>
+    </div>
+  </div>
+</div></section>
+</main>
+<script>
+(function(){
+  var KEY="zero9-view",root=document.documentElement;
+  var btns=[].slice.call(document.querySelectorAll('.mode button'));
+  function store(v){try{localStorage.setItem(KEY,v);}catch(e){}}
+  function load(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
+  function setMode(m,save){
+    root.setAttribute("data-view",m);
+    btns.forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-mode")===m?"true":"false");});
+    if(m==="detail"){document.querySelectorAll("main details").forEach(function(d){d.open=true;});}
+    else{document.querySelectorAll("main details.fold").forEach(function(d){d.open=false;});}
+    if(save)store(m);
+  }
+  btns.forEach(function(b){b.addEventListener("click",function(){setMode(b.getAttribute("data-mode"),true);});});
+  var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function reveal(id,smooth){
+    var el=id&&document.getElementById(id);if(!el)return false;
+    var f=el.closest("details.fold");if(f)f.open=true;
+    if(el.tagName==="DETAILS")el.open=true;
+    el.scrollIntoView({behavior:smooth&&!reduce?"smooth":"auto",block:"start"});
+    return true;
+  }
+  document.addEventListener("click",function(e){
+    var a=e.target.closest('a[href^="#"]');if(!a)return;
+    var id=decodeURIComponent(a.getAttribute("href").slice(1));
+    if(id==="detail"){e.preventDefault();setMode("detail",true);return;}
+    if(id==="top"||!id)return;
+    if(reveal(id,true)){e.preventDefault();try{history.pushState(null,"","#"+id);}catch(x){}}
+  });
+  window.addEventListener("hashchange",function(){var h=location.hash.slice(1);if(h==="detail")setMode("detail",true);else reveal(h,false);});
+  var h=location.hash.slice(1);
+  if(h==="detail")setMode("detail",false);
+  else setMode(load()==="detail"?"detail":"brief",false);
+  if(h&&h!=="detail")setTimeout(function(){reveal(h,false);},0);
+})();
+</script>
+
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div>
+      <div class="brand" style="margin-bottom:10px">零九顧問</div>
+      <p>零九顧問・中小企業 AI 導入輔導・服務範圍：全台</p>
+      <p class="contact">聯絡窗口：黃泰翔<span class="contact-tel" hidden>電話：</span><span class="contact-line" hidden>LINE：</span></p>
+    </div>
+    <div>
+      <h4>從這裡開始</h4>
+      <ul>
+        <li><a href="/check/">AI 準備度自評</a></li>
+        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfOkpTMlLoB_otpgyqpfiGL3hQba6UQB15jVnhM-VMm3sH5qQ/viewform" target="_blank" rel="noopener">請顧問打電話給我</a></li>
+        <li><a href="/summary/">一頁摘要（給老闆或財務）</a></li>
+        <li><a href="#roi">算算看</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="base">頁面插圖與示意畫面皆為自繪，內容為說明用，非客戶實際畫面。</div>
+</div></footer>
+
+</body>
+</html>
