@@ -338,8 +338,8 @@ ul.clean{margin:0;padding-left:1.2em;display:grid;gap:8px}
 .fix b{color:var(--accent)}
 .claim{margin:24px 0 0;max-width:48em}
 .claim p{margin:0}
-.claim .c1{font-size:clamp(19px,2vw,24px);font-weight:900;line-height:1.4}
-.claim .c2{font-size:clamp(16px,1.6vw,19px);font-weight:900;line-height:1.45;margin-top:10px}
+.claim .c1{font-size:clamp(22px,2.6vw,30px);font-weight:900;line-height:1.35}
+.claim .c2{font-size:clamp(17px,1.8vw,21px);font-weight:900;line-height:1.45;margin-top:14px}
 .claim .c-sub{font-size:14px;line-height:1.5;color:var(--muted)}
 .premise{margin:18px 0 0;max-width:48em;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:12px 16px;background:var(--alt)}
 .premise .p-h{margin:0 0 4px;font-weight:900;font-size:16px}
@@ -405,7 +405,7 @@ ul.clean{margin:0;padding-left:1.2em;display:grid;gap:8px}
 .roi .fields.f4{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:640px){.roi .fields.f4{grid-template-columns:1fr}}
 .claim-full{background:var(--paper);border:2px solid var(--accent);border-radius:14px;padding:22px 24px;margin:0 0 28px}
-.claim-full h3{font-size:clamp(19px,2vw,24px);margin:0 0 8px}
+.claim-full h3{font-size:clamp(22px,2.6vw,30px);line-height:1.35;margin:0 0 8px}
 .claim-full p{margin:0 0 8px}
 .claim-full h4{font-size:clamp(17px,1.7vw,20px);margin:14px 0 6px}
 .claim-full .small{margin:0}
@@ -731,10 +731,10 @@ footer .contact{color:var(--deep-ink)}
     <li><label><input type="checkbox" name="pain" value="8" data-short="買了系統或 AI 卻沒人用" aria-describedby="fix8"><span>買了系統或 AI 帳號，卻沒什麼人在用</span></label><p class="fix" id="fix8" hidden><b>對策：</b>不是再買工具，而是教會 1–2 位同事帶著大家用。</p></li>
   </ul>
   <div class="claim">
-    <p class="c1">投入 12 萬，前 2 個流程約半年回本</p>
-    <p class="c-sub">一年約省回 21–23 萬（以 50 人公司示範試算）</p>
-    <p class="c2">全面導入後，目標一年釋放 100 萬以上的人力價值</p>
-    <p class="c-sub">員工自己長出更多工具、加上後續擴充後才達得到；約等於 2 位全職行政一年的時間。<a href="#example">看推算方式</a></p>
+    <p class="c1">投入 12 萬，目標一年釋放 100 萬以上的人力價值，約 8 倍</p>
+    <p class="c-sub">約等於 2 位全職行政；全面導入、員工自己長出更多工具後的目標</p>
+    <p class="c2">前 2 個流程就能先回本：第一年約省回 20 萬，約 7 個月回本</p>
+    <p class="c-sub">以 50 人公司示範試算。<a href="#example">看推算方式</a></p>
   </div>
   <div class="premise" aria-labelledby="premiseH">
     <p class="p-h" id="premiseH">先說清楚三件事</p>
@@ -915,7 +915,7 @@ footer .contact{color:var(--deep-ink)}
     <button type="button" role="tab" id="roiTabC" aria-controls="roiPanelC" aria-selected="false" tabindex="-1">逐項細算</button>
   </div>
   <div role="tabpanel" id="roiPanelA" aria-labelledby="roiTabA">
-    <p class="roi-scope">這是全面導入後的目標，不是 12 萬方案的範圍</p>
+    <p class="roi-scope">這是全面導入後的目標，不是 12 萬方案的範圍；我們的目標是一年 100 萬以上的人力價值，約等於 2 位全職行政</p>
     <div class="roi">
       <div class="card roi-inputs">
         <div class="fields f4">
@@ -950,7 +950,7 @@ footer .contact{color:var(--deep-ink)}
       </div>
       <div>
         <div class="roi-out" id="roiOutB" aria-live="polite"></div>
-        <p class="small" style="margin-top:16px">預設是「以一家 50 人的公司為例」的兩個流程。每人每年以 2,080 工時計算，未扣 AI 帳號費。</p>
+        <p class="small" style="margin-top:16px">預設是「以一家 50 人的公司為例」的兩個流程：每週約 36 小時、省六成。這裡每人每年以 2,080 工時計算，還沒扣學習期和 AI 帳號費；扣掉之後，就是首頁說的第一年約省回 20 萬、約 7 個月回本。</p>
       </div>
     </div>
   </div>
@@ -1277,11 +1277,10 @@ if(matchMedia("(max-width:1000px)").matches){document.querySelectorAll(".flow de
 <details class="fold" id="example"><summary><span class="fold-k">12 萬做到什麼</span><span class="fold-t">以一家 50 人的公司為例：12 萬買到什麼？</span></summary><div class="fold-body">
 <section class="band alt"><div class="wrap">
   <div class="claim-full">
-    <h3>投入 12 萬，前 2 個流程約半年回本</h3>
-    <p>一年約省回 21–23 萬（以 50 人公司示範試算）</p>
-    <h4>全面導入後，目標一年釋放 100 萬以上的人力價值</h4>
-    <p>員工自己長出更多工具、加上後續擴充後才達得到；約等於 2 位全職行政一年的時間（每人一年人事成本約 50 萬，以月薪 3.5 萬乘以 1.2 倍計）。</p>
-    <p class="small">推算方式：內勤人數 × 省下的比例 × 每人一年人事成本。例如 8 位內勤省一半，約 200 萬；12 位內勤省七成，約 420 萬。實際數字以診斷時量測為準。</p>
+    <h3>投入 12 萬，目標一年釋放 100 萬以上的人力價值，約 8 倍</h3>
+    <p>約等於 2 位全職行政；全面導入、員工自己長出更多工具後的目標（每人一年人事成本約 50 萬，以月薪 3.5 萬乘以 1.2 倍計）。</p>
+    <h4>前 2 個流程就能先回本：第一年約省回 20 萬，約 7 個月回本</h4>
+    <p class="small">兩個流程每週約 36 小時，省六成；扣掉第 1 個月學習期，以及約 5 人的 AI 帳號費，第一年約省回 20 萬。實際數字以診斷時量測為準。</p>
   </div>
   <div class="sec-head">
     <p>示範企業方案包含 2 個流程。假設挑「報價」和「出貨文件」：</p>
@@ -1292,15 +1291,12 @@ if(matchMedia("(max-width:1000px)").matches){document.querySelectorAll(".flow de
       <tbody><tr><th scope="row">報價</th><td data-label="導入前">3 位業助，每人每週約 8 小時翻舊單、算價格</td><td data-label="導入後" class="us">AI 依需求和價目表產出草稿，業助確認修改</td></tr><tr><th scope="row">出貨文件</th><td data-label="導入前">2 位同事，每人每週約 6 小時做出貨單、裝箱單</td><td data-label="導入後" class="us">訂單資料進來，AI 依客戶格式產出，人只看異常</td></tr><tr><th scope="row">接現有資料</th><td data-label="導入前">—</td><td data-label="導入後" class="us">直接讀現有的 Excel 或進銷存匯出檔，不用換系統</td></tr></tbody>
     </table></div>
     <div class="card ex-calc">
-      <h3>業助每週多出約 20 小時，一年約省回 21–23 萬</h3>
+      <h3>業助每週多出約 20 小時，第一年約省回 20 萬</h3>
       <p class="small">示範試算，實際以診斷時量到的數字為準。</p>
       <ul class="clean">
-        <li>兩個流程每週約 36 小時，假設省下六成，約 21.6 小時／週，一年約 1,120 小時。</li>
-        <li>以月薪 3.5 萬、人事成本 1.2 倍計，一年約省回 27 萬元。</li>
-        <li>AI 帳號只買給實際使用的約 5 人，每人每月約 700–1,000 元，一年約 4–6 萬元。</li>
-        <li>扣掉 AI 帳號費，第一年約省回 21–23 萬元，導入費 12 萬約 6–7 個月回本；之後員工自己長出的其他功能還不算在內。</li>
-        <li>保守一點算：前 1 個月是學習期，同事會多花一些時間，省下的時間從第 2 個月才開始累積，第一年約省回 19–21 萬。</li>
-        <li>省下的時間不是少發的薪水，而是多出來的人力：例如業助每週多出約 20 小時，可以多回幾張報價、多跟幾個客戶。</li>
+        <li>兩個流程每週約 36 小時、省六成</li>
+        <li>扣掉學習期和 AI 帳號費，第一年約省回 20 萬</li>
+        <li>導入費 12 萬約 7 個月回本</li>
       </ul>
       <p class="ex-link"><a href="#roi">用你自己的數字算算看 →</a></p>
     </div>
